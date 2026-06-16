@@ -1,0 +1,84 @@
+ .hero {
+   height:90vh;
+   position:relative;
+   overflow:hidden;
+ }
+ 
+ .slide {
+   position:absolute;
+   inset:0;
+   background-size:cover;
+   background-position:center;
+   opacity:0;
+   transition:opacity 2s ease,transform 8s ease;transform:scale(1);
+ }
+ 
+ .slide.active {
+   opacity:1;transform:scale(1.08);
+ }
+ 
+ .overlay {
+   position:absolute;
+   inset:0;
+   background:rgba(0,0,0,.45);
+ }
+ 
+ .hero-content {
+   position:absolute;
+   top:40%;
+   left:6%;
+   transform:translateY(-50%);
+   z-index:2;
+   max-width:650px;
+ }
+ 
+ .glass {
+   background: rgba(255,255,255,0.18);
+   backdrop-filter: blur(25px);
+   border: 1px solid rgba(255,255,255,0.35);
+   box-shadow: 0 8px 32px rgba(15,23,42,0.15);
+   padding:40px;
+   border-radius:25px;
+   color:#fff;
+   width: 100%;
+   max-width: 500px;
+ }
+ 
+ .glass h1 {
+   font-size:3.5rem;
+   margin-bottom:15px;
+ }
+ 
+ .glass span {
+   color:#1E40AF;
+ }
+ 
+ .glass p {
+   line-height:1.7;
+   margin-bottom:20px
+ }
+ 
+ .btns a {
+   display:inline-block;
+   margin:5px;
+   padding:14px 25px;
+   border-radius:30px;
+   text-decoration:none;
+ }
+ 
+ .primary {
+   background:linear-gradient(
+   to right,
+   #2563eb,
+   #14b8a6);
+
+  transition:.3s;
+   color:#fff;
+ }
+ 
+ .secondary {
+   background:#fff;
+   color:#111;
+ }
+ 
+

@@ -1,0 +1,234 @@
+/* ============================================================
+   SHARKS Clinic — Shared UI Styles (shared.css)
+   ------------------------------------------------------------
+   Toast notifications and modal dialogs shared between the
+   public website and the admin dashboard.
+   ============================================================ */
+
+/* ---------- Toast notifications ---------------------------------- */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 360px;
+  width: calc(100% - 40px);
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.toast-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.toast-hide {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.toast i:first-child {
+  font-size: 18px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.toast-close:hover { color: #1e293b; }
+
+.toast-success { border-left-color: #059669; }
+.toast-success i:first-child { color: #059669; }
+
+.toast-error { border-left-color: #dc2626; }
+.toast-error i:first-child { color: #dc2626; }
+
+.toast-warning { border-left-color: #f59e0b; }
+.toast-warning i:first-child { color: #f59e0b; }
+
+.toast-info { border-left-color: #2563eb; }
+.toast-info i:first-child { color: #2563eb; }
+
+/* ---------- Form validation states --------------------------------- */
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1) !important;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 12.5px;
+  margin-top: 6px;
+  display: none;
+}
+
+.form-group.has-error .field-error {
+  display: block;
+}
+
+/* ---------- Modal dialogs ------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  padding: 20px;
+}
+
+.modal-overlay.modal-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.modal-open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.modal-close:hover { background: #f1f5f9; color: #0f172a; }
+
+.modal-body { padding: 20px 22px; }
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.modal-footer .btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-primary:hover { opacity: 0.92; }
+
+.btn-danger { background: #dc2626; color: #fff; }
+.btn-danger:hover { opacity: 0.92; }
+
+.btn-secondary { background: #f1f5f9; color: #1e293b; border-color: #e2e8f0; }
+.btn-secondary:hover { background: #e2e8f0; }
+
+.modal-body .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.modal-body .form-group label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.modal-body .form-group input,
+.modal-body .form-group select,
+.modal-body .form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.modal-body .form-group input:focus,
+.modal-body .form-group select:focus,
+.modal-body .form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.modal-body .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .modal-body .form-row { grid-template-columns: 1fr; }
+}

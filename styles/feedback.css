@@ -1,0 +1,181 @@
+ *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Roboto',sans-serif;
+}
+
+body{
+  background:#f8fafc;
+}
+
+.feedback-section{
+  min-height:100vh;
+  padding:20px 20px 50px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  background: linear-gradient(
+  135deg,
+  #f8fafc,
+  #e2e8f0);
+}
+
+.feedback-card{
+  width:100%;
+  max-width:800px;
+  background:#fff;
+  padding:50px 40px;
+  border-radius:30px;
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.08);
+  border:1px solid #e2e8f0;
+  border-top: 5px solid #2563eb;
+  margin-bottom: 40px;
+}
+
+.feedback-icon{
+  display:block;
+  text-align:center;
+  font-size:55px;
+  color:#2563eb;
+  margin-bottom:20px;
+}
+
+.feedback-card h1{
+  text-align:center;
+  font-size:2.5rem;
+  color:#0f172a;
+}
+
+.subtitle{
+  text-align:center;
+  color:#64748b;
+  line-height:1.7;
+  margin:15px 0 35px;
+}
+
+.form-group{
+  margin-bottom:22px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:8px;
+
+  font-weight:600;
+  color:#334155;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:16px 18px;
+  border:1px solid #cbd5e1;
+  border-radius:15px;
+  font-size:16px;
+  outline:none;
+  transition:.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#2563eb;
+  box-shadow:
+  0 0 0 4px rgba(37,99,235,.1);
+}
+
+.radio-group{
+  display:flex;
+  gap:25px;
+  margin-top:10px;
+}
+
+.radio-group label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+}
+
+.radio-group input[type="radio"]{
+  width:18px;
+  height:18px;
+  margin:0;
+  padding:0;
+  border-radius:50%;
+  flex-shrink:0;
+  accent-color:#2563eb;
+}
+
+.radio-group input[type="radio"]:focus{
+  box-shadow:none;
+}
+
+.submit-btn{
+  width:100%;
+
+  border:none;
+  padding:18px;
+
+  border-radius:15px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #2563eb,
+  #14b8a6);
+
+  color:#fff;
+  font-size:17px;
+  font-weight:600;
+
+  cursor:pointer;
+  transition:.3s;
+}
+
+.submit-btn:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 12px 30px rgba(37,99,235,.25);
+}
+
+@media(max-width:768px){
+
+  .feedback-card{
+    padding:30px;
+  }
+
+  .feedback-card h1{
+    font-size:2rem;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .feedback-card{
+    padding:20px;
+  }
+
+  .feedback-card h1{
+    font-size:1.6rem;
+  }
+
+  .feedback-icon{
+    font-size:42px;
+  }
+
+  .radio-group{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .radio-group label{
+    width:auto;
+  }
+}

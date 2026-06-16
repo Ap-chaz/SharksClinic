@@ -1,0 +1,267 @@
+/* SECTION */
+
+.services-section{
+    padding:0 6% 30px;
+    background:#f8fafc;
+    margin-bottom: 130px;
+}
+
+.services-section h1{
+    color:#1E40AF;
+    letter-spacing:1px;
+    font-size: 2.4rem;
+    font-weight:700;
+    margin-top:10px;
+    margin-bottom:30px;
+}
+
+.services-section span{
+    color: #0f172a;
+}
+
+.search-box{
+    width:100%;
+    max-width:600px;
+    height:60px;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+    margin-bottom: 50px;
+}
+
+.search-box i{
+    color:#94a3b8;
+    font-size:18px;
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    margin-left:15px;
+    font-size:1rem;
+    background:transparent;
+}
+
+@media(max-width:768px){
+
+    .services-hero{
+        padding:60px 5%;
+    }
+
+    .services-hero h1{
+        font-size:2.5rem;
+    }
+
+    .search-box{
+        height:55px;
+    }
+}
+
+@media(max-width:480px){
+
+    .services-section h1{
+        font-size:1.7rem;
+    }
+
+    .search-box{
+        height:50px;
+        padding: 0 12px;
+    }
+
+    .search-box input{
+        font-size:.9rem;
+    }
+}
+
+/* GRID */
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:30px;
+}
+
+/* CARD */
+
+.service-card{
+    position:relative;
+    height:420px;
+    border-radius:30px;
+    overflow:hidden;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    transition:.4s ease;
+}
+
+.service-card:hover{
+    transform:translateY(-10px);
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(15,23,42,.55);
+}
+
+.card-content{
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:30px;
+    z-index:2;
+}
+
+.card-content h3{
+    color:white;
+    font-size:2rem;
+    margin-bottom:15px;
+}
+
+.card-content p{
+    color:#f1f5f9;
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.card-content a{
+    text-decoration:none;
+    color:#38bdf8;
+    font-weight:700;
+}
+
+.card-content a i{
+    margin-left:8px;
+}
+
+/* BACKGROUND IMAGES */
+
+.consultation{
+    background-image:url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200");
+}
+
+.cardiology{
+    background-image:url("https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=1200");
+}
+
+.laboratory{
+    background-image:url("https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1200");
+}
+
+.emergency{
+    background-image:url("https://images.unsplash.com/photo-1584515933487-779824d29309?w=1200");
+}
+
+.pharmacy{
+    background-image:url("https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1200");
+}
+
+.dental{
+    background-image:url("https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1200");
+}
+
+.ophthalmology{
+  background-image:url("https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?w=1200");
+}
+
+.dermatology{
+  background-image:url("https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1200");
+}
+
+.mental-health{
+  background-image:url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200");
+}
+
+.surgery{
+  background-image:url("https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1200");
+}
+
+.dialysis{
+  background-image:url("https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=1200");
+}
+
+.ambulance{
+  background-image:url("https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=1200");
+}
+
+.vaccination{
+    background-image:url("https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?auto=format&fit=crop&w=1200&q=80");
+}
+
+.nutrition{
+  background-image:url("https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200");
+}
+
+.radiology{
+  background-image:url("https://images.unsplash.com/photo-1581595219315-a187dd40c322?w=1200");
+}
+
+.physiotherapy{
+  background-image:url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200");
+}
+
+.pediatrics{
+  background-image:url("https://images.unsplash.com/photo-1624727828489-a1e03b79bba8?w=1200");
+}
+
+.maternity{
+  background-image:url("https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=1200");
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .services-section{
+        padding:0px 5% 70px;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+
+    .service-card{
+        height:350px;
+    }
+
+    .card-content{
+        left:25px;
+        right:25px;
+        bottom:25px;
+    }
+
+    .card-content h3{
+        font-size:1.7rem;
+    }
+}
+
+/* ---------- Search: visually hidden label + no-results state ------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.no-results-message {
+  text-align: center;
+  color: #64748b;
+  font-size: 1rem;
+  margin: 30px 0;
+}
+
+.service-card.hidden-card {
+  display: none;
+}

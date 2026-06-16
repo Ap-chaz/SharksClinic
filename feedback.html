@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Feedback</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="styles/feedback.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body>
+    <div id="header"></div>
+
+<section class="feedback-section">
+
+  <div class="feedback-card">
+
+    <i class="fa-solid fa-comment-medical feedback-icon" aria-hidden="true"></i>
+
+    <h1>Patient Feedback</h1>
+
+    <p class="subtitle">
+      We value your opinion. Help us improve our services by sharing your experience.
+    </p>
+
+    <form class="feedback-form" id="feedbackForm" novalidate>
+
+      <div class="form-group" data-field="fullName">
+        <label for="fbFullName">Full Name</label>
+        <input
+          type="text"
+          id="fbFullName"
+          name="fullName"
+          placeholder="Enter your name">
+        <span class="field-error">Please enter your name.</span>
+      </div>
+
+      <div class="form-group" data-field="email">
+        <label for="fbEmail">Email Address</label>
+        <input
+          type="email"
+          id="fbEmail"
+          name="email"
+          placeholder="example@email.com">
+        <span class="field-error">Please enter a valid email address.</span>
+      </div>
+
+      <div class="form-group" data-field="rating">
+        <label for="fbRating">How would you rate our service?</label>
+
+        <select id="fbRating" name="rating" required>
+          <option value="">Select Rating</option>
+          <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+          <option value="4">⭐⭐⭐⭐ Very Good</option>
+          <option value="3">⭐⭐⭐ Good</option>
+          <option value="2">⭐⭐ Fair</option>
+          <option value="1">⭐ Poor</option>
+        </select>
+        <span class="field-error">Please select a rating.</span>
+      </div>
+
+      <div class="form-group" data-field="recommend">
+        <label id="recommendLabel">Would you recommend us?</label>
+
+        <div class="radio-group" role="radiogroup" aria-labelledby="recommendLabel">
+          <label for="recommendYes">
+            <input type="radio" id="recommendYes" name="recommend" value="yes">
+            Yes
+          </label>
+
+          <label for="recommendNo">
+            <input type="radio" id="recommendNo" name="recommend" value="no">
+            No
+          </label>
+        </div>
+        <span class="field-error">Please let us know if you'd recommend us.</span>
+      </div>
+
+      <div class="form-group" data-field="message">
+        <label for="fbMessage">Your Feedback</label>
+
+        <textarea
+          id="fbMessage"
+          name="message"
+          rows="6"
+          placeholder="Tell us about your experience..."
+          required></textarea>
+        <span class="field-error">Please share a few words about your experience.</span>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Submit Feedback
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+    <div id="footer"></div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="components/components.js"></script>
+  <script src="scripts/feedback.js"></script>
+
+</body>
+</html>

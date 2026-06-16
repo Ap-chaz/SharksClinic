@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SHARKS Clinic administrative dashboard — patients, appointments, billing, laboratory and pharmacy overview.">
+<title>SHARKS Clinic Management System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div class="login-screen" id="loginScreen">
+  <form class="login-card" id="loginForm" novalidate>
+    <div class="login-brand">
+      <div class="brand-icon">
+        <i class="ti ti-fish" aria-hidden="true"></i>
+      </div>
+      <div class="brand-text">
+        <div class="name">SHARKS CLINIC</div>
+        <div class="sub">Management System</div>
+      </div>
+    </div>
+
+    <h1>Admin Sign In</h1>
+    <p class="login-subtitle">Enter your credentials to access the dashboard.</p>
+
+    <div class="form-group" data-field="username">
+      <label for="loginUsername">Username</label>
+      <input type="text" id="loginUsername" name="username" placeholder="admin" autocomplete="username" required>
+      <span class="field-error">Please enter your username.</span>
+    </div>
+
+    <div class="form-group" data-field="password">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" name="password" placeholder="••••••••" autocomplete="current-password" required>
+      <span class="field-error">Please enter your password.</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary login-submit">Sign In</button>
+
+    <p class="login-hint">Demo credentials: <strong>admin</strong> / <strong>sharks123</strong></p>
+  </form>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div class="app-shell" id="appShell" hidden>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <i class="ti ti-fish" aria-hidden="true"></i>
+    </div>
+    <div class="brand-text">
+      <div class="name">SHARKS CLINIC</div>
+      <div class="sub">Management System</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label">Main</div>
+
+  <div class="nav-item active" onclick="setPage(this)" role="button" tabindex="0" aria-current="page" data-target="dashboard">
+    <i class="ti ti-layout-dashboard" aria-hidden="true"></i>
+    <span>Dashboard</span>
+  </div>
+
+  <div class="sidebar-section-label">Clinical</div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-users" aria-hidden="true"></i>
+    <span>Patients</span>
+    <span class="nav-badge green">1,250</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Register Patient</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient List</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient Search</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient Profiles</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-calendar-event" aria-hidden="true"></i>
+    <span>Appointments</span>
+    <span class="nav-badge">8</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Book Appointment</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Upcoming</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Appointment Status</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-stethoscope" aria-hidden="true"></i>
+    <span>Doctors</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="doctors">Doctor Directory</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="doctors">Doctor Schedules</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-notes-medical" aria-hidden="true"></i>
+    <span>Medical Records</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Patient History</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Diagnoses</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Prescriptions</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Doctor Notes</div>
+  </div>
+
+  <div class="sidebar-section-label">Services</div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-microscope" aria-hidden="true"></i>
+    <span>Laboratory</span>
+    <span class="nav-badge">5</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Lab Requests</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Lab Results</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Pending Tests</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-pill" aria-hidden="true"></i>
+    <span>Pharmacy</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Medicines</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Stock Levels</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Dispensing Records</div>
+  </div>
+
+  <div class="sidebar-section-label">Finance</div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-receipt" aria-hidden="true"></i>
+    <span>Billing</span>
+    <span class="nav-badge">3</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Invoices</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Payments</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Outstanding Balances</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-chart-pie" aria-hidden="true"></i>
+    <span>Reports</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Daily Reports</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Monthly Reports</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Revenue Reports</div>
+  </div>
+
+  <div class="sidebar-section-label">Admin</div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-users-group" aria-hidden="true"></i>
+    <span>Staff Management</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Users</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Roles</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Permissions</div>
+  </div>
+
+  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+    <i class="ti ti-settings" aria-hidden="true"></i>
+    <span>Settings</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="nav-sub">
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Clinic Information</div>
+    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">System Settings</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar">DK</div>
+      <div class="user-info">
+        <div class="uname">Dr. Kimani</div>
+        <div class="urole">Administrator</div>
+      </div>
+      <button type="button" class="logout-btn" id="logoutBtn" aria-label="Log out" title="Log out">
+        <i class="ti ti-logout" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main" id="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle menu">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <div>
+      <div class="page-title">Dashboard</div>
+      <div class="page-breadcrumb">Dashboard</div>
+    </div>
+
+    <div class="topbar-search">
+      <label for="globalSearch" class="sr-only">Search patients, appointments, and records</label>
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="search" id="globalSearch" placeholder="Search patients, appointments...">
+    </div>
+
+    <div class="topbar-actions">
+      <button class="topbar-btn" type="button" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode" aria-pressed="false">
+        <i class="ti ti-moon" aria-hidden="true"></i>
+      </button>
+      <button class="topbar-btn" type="button" title="Notifications" aria-label="Notifications">
+        <i class="ti ti-bell" aria-hidden="true"></i>
+        <span class="notif-dot"></span>
+      </button>
+      <button class="topbar-btn" type="button" title="Messages" aria-label="Messages">
+        <i class="ti ti-message" aria-hidden="true"></i>
+      </button>
+      <button class="topbar-btn" type="button" title="Help" aria-label="Help">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+      </button>
+      <button class="topbar-profile" type="button" aria-label="Account menu for Dr. Kimani, Administrator">
+        <div class="topbar-avatar">DK</div>
+        <div>
+          <div class="pname">Dr. Kimani</div>
+          <div class="prole">Administrator</div>
+        </div>
+        <i class="ti ti-chevron-down" style="color: var(--text-muted); font-size: 14px;" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="content" role="main">
+    <h2 class="sr-only">Sharks Clinic Management Dashboard — overview of patient activity, appointments, revenue and clinical operations</h2>
+
+    <div class="page-view active" data-page="dashboard">
+
+    <!-- Alert -->
+    <div class="alert-bar" role="alert">
+      <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+      <span><strong><span id="alertOutstandingCount">3</span> outstanding bills</strong> require attention — KES <span id="alertOutstandingAmount">18,500</span> overdue. &nbsp;<button type="button" class="alert-link" data-target="billing" onclick="setPage(this)">View Bills →</button></span>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="ti ti-users" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Total Patients</div>
+          <div class="stat-value" id="statTotalPatients">1,250</div>
+          <div class="stat-delta up"><i class="ti ti-trending-up"></i> +12 this month</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <i class="ti ti-calendar-check" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Today's Appointments</div>
+          <div class="stat-value" id="statTodayAppointments">42</div>
+          <div class="stat-delta up"><i class="ti ti-trending-up"></i> +8 from yesterday</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon teal">
+          <i class="ti ti-stethoscope" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Doctors On Duty</div>
+          <div class="stat-value" id="statDoctorsOnDuty">6</div>
+          <div class="stat-delta neutral"><i class="ti ti-info-circle" aria-hidden="true"></i> <span id="statDoctorsOnCall">2 on call</span></div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon amber">
+          <i class="ti ti-currency-dollar" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Revenue Today</div>
+          <div class="stat-value" id="statRevenueToday" style="font-size: 20px;">KES 35K</div>
+          <div class="stat-delta up"><i class="ti ti-trending-up"></i> +KES 5,000</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon red">
+          <i class="ti ti-file-invoice" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Pending Bills</div>
+          <div class="stat-value" id="statPendingBills">18</div>
+          <div class="stat-delta down"><i class="ti ti-alert-circle"></i> <span id="statPendingAmount">KES 18,500 due</span></div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">
+          <i class="ti ti-flask" aria-hidden="true"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Lab Tests</div>
+          <div class="stat-value">18</div>
+          <div class="stat-delta down"><i class="ti ti-clock"></i> 5 pending results</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="dashboard-left">
+
+        <!-- Recent Appointments -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-calendar-event" aria-hidden="true"></i>
+              Recent Appointments
+            </div>
+            <span class="card-action" tabindex="0" role="button" data-target="appointments" onclick="setPage(this)">View all</span>
+          </div>
+          <div class="tabs">
+            <div class="tab active">All</div>
+            <div class="tab">Confirmed</div>
+            <div class="tab">Pending</div>
+            <div class="tab">Completed</div>
+          </div>
+          <div class="card-body">
+            <table class="data-table" aria-label="Recent Appointments">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Patient Name</th>
+                  <th>Doctor</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentAppointmentsBody">
+                <tr>
+                  <td class="text-muted-cell">1</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-blue">JD</span>
+                      John Doe
+                    </div>
+                  </td>
+                  <td>Dr. Kimani</td>
+                  <td>12 Jun 2025</td>
+                  <td>09:00 AM</td>
+                  <td>Consultation</td>
+                  <td><span class="badge confirmed">Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">2</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-green">MW</span>
+                      Mary Wanjiku
+                    </div>
+                  </td>
+                  <td>Dr. Mercy</td>
+                  <td>12 Jun 2025</td>
+                  <td>09:30 AM</td>
+                  <td>Follow-up</td>
+                  <td><span class="badge confirmed">Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">3</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-amber">PM</span>
+                      Peter Mwangi
+                    </div>
+                  </td>
+                  <td>Dr. Kimani</td>
+                  <td>12 Jun 2025</td>
+                  <td>10:00 AM</td>
+                  <td>Consultation</td>
+                  <td><span class="badge pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">4</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-purple">GA</span>
+                      Grace Akinyi
+                    </div>
+                  </td>
+                  <td>Dr. Mercy</td>
+                  <td>12 Jun 2025</td>
+                  <td>10:30 AM</td>
+                  <td>Consultation</td>
+                  <td><span class="badge confirmed">Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">5</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-teal">JO</span>
+                      James Ochieng
+                    </div>
+                  </td>
+                  <td>Dr. Kimani</td>
+                  <td>12 Jun 2025</td>
+                  <td>11:00 AM</td>
+                  <td>Check-up</td>
+                  <td><span class="badge pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">6</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-red">FN</span>
+                      Faith Njeri
+                    </div>
+                  </td>
+                  <td>Dr. Otieno</td>
+                  <td>12 Jun 2025</td>
+                  <td>11:30 AM</td>
+                  <td>Follow-up</td>
+                  <td><span class="badge completed">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Patients -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-users" aria-hidden="true"></i>
+              Recent Patients
+            </div>
+            <span class="card-action" tabindex="0" role="button" data-target="patients" onclick="setPage(this)">View all</span>
+          </div>
+          <div class="card-body">
+            <table class="data-table" aria-label="Recent Patients">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Patient Name</th>
+                  <th>Phone</th>
+                  <th>Age</th>
+                  <th>Last Visit</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentPatientsBody">
+                <tr>
+                  <td class="text-muted-cell">1</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-blue">JD</span>
+                      John Doe
+                    </div>
+                  </td>
+                  <td>0712 345 678</td>
+                  <td>32</td>
+                  <td>12 Jun 2025</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">2</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-green">MW</span>
+                      Mary Wanjiku
+                    </div>
+                  </td>
+                  <td>0722 456 789</td>
+                  <td>28</td>
+                  <td>11 Jun 2025</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">3</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-amber">PM</span>
+                      Peter Mwangi
+                    </div>
+                  </td>
+                  <td>0733 567 890</td>
+                  <td>45</td>
+                  <td>10 Jun 2025</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">4</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-purple">GA</span>
+                      Grace Akinyi
+                    </div>
+                  </td>
+                  <td>0744 678 901</td>
+                  <td>34</td>
+                  <td>09 Jun 2025</td>
+                  <td><span class="badge new">New</span></td>
+                </tr>
+                <tr>
+                  <td class="text-muted-cell">5</td>
+                  <td>
+                    <div class="patient-cell">
+                      <span class="patient-avatar bg-teal">JO</span>
+                      James Ochieng
+                    </div>
+                  </td>
+                  <td>0755 789 012</td>
+                  <td>50</td>
+                  <td>08 Jun 2025</td>
+                  <td><span class="badge critical">Critical</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Revenue Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-chart-bar" aria-hidden="true"></i>
+              Revenue Summary
+            </div>
+            <span class="card-action" tabindex="0" role="button">Full report</span>
+          </div>
+          <div class="revenue-grid">
+            <div class="rev-item">
+              <div class="rev-label">Consultations</div>
+              <div class="rev-value">KES 18,500</div>
+              <div class="rev-bar-wrap"><div class="rev-bar green" style="width:74%"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-label">Lab Tests</div>
+              <div class="rev-value">KES 8,200</div>
+              <div class="rev-bar-wrap"><div class="rev-bar blue" style="width:48%"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-label">Pharmacy</div>
+              <div class="rev-value">KES 5,300</div>
+              <div class="rev-bar-wrap"><div class="rev-bar amber" style="width:32%"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-label">Outstanding</div>
+              <div class="rev-value" style="color: var(--danger);">KES 18,500</div>
+              <div class="rev-bar-wrap"><div class="rev-bar red" style="width:55%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-activity" aria-hidden="true"></i>
+              Activity Feed
+            </div>
+            <span class="card-action" tabindex="0" role="button">See all</span>
+          </div>
+          <div class="card-body">
+            <div class="activity-feed">
+              <div class="activity-item">
+                <div class="activity-dot green"><i class="ti ti-user-plus" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text">New patient <strong>Faith Njeri</strong> registered by receptionist</div>
+                  <div class="activity-time">5 minutes ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot blue"><i class="ti ti-calendar-plus" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text">Appointment booked for <strong>Peter Mwangi</strong> with Dr. Kimani</div>
+                  <div class="activity-time">18 minutes ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot amber"><i class="ti ti-flask" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text">Lab results ready for <strong>Grace Akinyi</strong> — Blood Panel</div>
+                  <div class="activity-time">34 minutes ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot green"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text">Payment of <strong>KES 3,500</strong> received from John Doe</div>
+                  <div class="activity-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot red"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text"><strong>Amoxicillin 500mg</strong> stock is critically low — 12 units remaining</div>
+                  <div class="activity-time">2 hours ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot purple"><i class="ti ti-notes-medical" aria-hidden="true"></i></div>
+                <div class="activity-content">
+                  <div class="activity-text">Dr. Mercy added prescription notes for <strong>James Ochieng</strong></div>
+                  <div class="activity-time">3 hours ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="dashboard-right">
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-bolt" aria-hidden="true"></i>
+              Quick Actions
+            </div>
+          </div>
+          <div class="quick-actions">
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Add patient" data-qa="add-patient">
+              <i class="ti ti-user-plus" aria-hidden="true"></i>
+              <span>Add Patient</span>
+            </div>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Book appointment" data-qa="book-appointment">
+              <i class="ti ti-calendar-plus" aria-hidden="true"></i>
+              <span>Book Appt</span>
+            </div>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="New invoice" data-qa="new-invoice">
+              <i class="ti ti-file-invoice" aria-hidden="true"></i>
+              <span>New Invoice</span>
+            </div>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Order lab test">
+              <i class="ti ti-flask" aria-hidden="true"></i>
+              <span>Order Lab</span>
+            </div>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Add prescription">
+              <i class="ti ti-pill" aria-hidden="true"></i>
+              <span>Prescription</span>
+            </div>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Generate report">
+              <i class="ti ti-chart-pie" aria-hidden="true"></i>
+              <span>Report</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-clock" aria-hidden="true"></i>
+              Today's Schedule
+            </div>
+            <span class="card-action" tabindex="0" role="button">Full schedule</span>
+          </div>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div class="sch-time">09:00 AM</div>
+              <div class="sch-line"></div>
+              <div class="sch-info">
+                <div class="sch-name">John Doe</div>
+                <div class="sch-type">Consultation</div>
+              </div>
+              <div class="sch-doc">Dr. Kimani</div>
+            </div>
+            <div class="schedule-item">
+              <div class="sch-time">09:30 AM</div>
+              <div class="sch-line"></div>
+              <div class="sch-info">
+                <div class="sch-name">Mary Wanjiku</div>
+                <div class="sch-type">Consultation</div>
+              </div>
+              <div class="sch-doc">Dr. Mercy</div>
+            </div>
+            <div class="schedule-item">
+              <div class="sch-time">10:00 AM</div>
+              <div class="sch-line pending"></div>
+              <div class="sch-info">
+                <div class="sch-name">Peter Mwangi</div>
+                <div class="sch-type">Follow-up</div>
+              </div>
+              <div class="sch-doc">Dr. Kimani</div>
+            </div>
+            <div class="schedule-item">
+              <div class="sch-time">10:30 AM</div>
+              <div class="sch-line"></div>
+              <div class="sch-info">
+                <div class="sch-name">Grace Akinyi</div>
+                <div class="sch-type">Consultation</div>
+              </div>
+              <div class="sch-doc">Dr. Mercy</div>
+            </div>
+            <div class="schedule-item">
+              <div class="sch-time">11:00 AM</div>
+              <div class="sch-line pending"></div>
+              <div class="sch-info">
+                <div class="sch-name">James Ochieng</div>
+                <div class="sch-type">Consultation</div>
+              </div>
+              <div class="sch-doc">Dr. Kimani</div>
+            </div>
+            <div class="schedule-item">
+              <div class="sch-time">02:00 PM</div>
+              <div class="sch-line done"></div>
+              <div class="sch-info">
+                <div class="sch-name">Faith Njeri</div>
+                <div class="sch-type">Check-up</div>
+              </div>
+              <div class="sch-doc">Dr. Otieno</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar Mini -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-calendar" aria-hidden="true"></i>
+              Appointment Calendar
+            </div>
+          </div>
+          <div class="mini-cal">
+            <div class="cal-header">
+              <button class="cal-nav" id="calPrev" aria-label="Previous month"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+              <div class="cal-month" id="calMonth">June 2025</div>
+              <button class="cal-nav" id="calNext" aria-label="Next month"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+            </div>
+            <div class="cal-grid" id="calGrid" aria-label="Calendar"></div>
+          </div>
+        </div>
+
+        <!-- Doctors On Duty -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-stethoscope" aria-hidden="true"></i>
+              Doctors On Duty
+            </div>
+            <span class="card-action" tabindex="0" role="button" data-target="doctors" onclick="setPage(this)">Directory</span>
+          </div>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-avatar bg-navy">DK</div>
+              <div>
+                <div class="doc-name">Dr. Kimani</div>
+                <div class="doc-spec">General Medicine</div>
+              </div>
+              <div class="doc-status"><span class="badge active">On Duty</span></div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-avatar bg-green">DM</div>
+              <div>
+                <div class="doc-name">Dr. Mercy</div>
+                <div class="doc-spec">Paediatrics</div>
+              </div>
+              <div class="doc-status"><span class="badge active">On Duty</span></div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-avatar bg-purple">DO</div>
+              <div>
+                <div class="doc-name">Dr. Otieno</div>
+                <div class="doc-spec">Surgery</div>
+              </div>
+              <div class="doc-status"><span class="badge pending">On Call</span></div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-avatar bg-red">DW</div>
+              <div>
+                <div class="doc-name">Dr. Waweru</div>
+                <div class="doc-spec">Obstetrics</div>
+              </div>
+              <div class="doc-status"><span class="badge active">On Duty</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Lab Tests -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-microscope" aria-hidden="true"></i>
+              Pending Lab Tests
+            </div>
+            <span class="card-action" tabindex="0" role="button">All tests</span>
+          </div>
+          <div class="card-body">
+            <div class="lab-item">
+              <div class="lab-icon"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+              <div>
+                <div class="lab-name">Blood Panel</div>
+                <div class="lab-patient">James Ochieng</div>
+              </div>
+              <div class="lab-right">
+                <span class="badge pending">Pending</span>
+                <div class="lab-time">Ordered 8:00 AM</div>
+              </div>
+            </div>
+            <div class="lab-item">
+              <div class="lab-icon"><i class="ti ti-flask" aria-hidden="true"></i></div>
+              <div>
+                <div class="lab-name">Urine Analysis</div>
+                <div class="lab-patient">Peter Mwangi</div>
+              </div>
+              <div class="lab-right">
+                <span class="badge pending">Pending</span>
+                <div class="lab-time">Ordered 9:15 AM</div>
+              </div>
+            </div>
+            <div class="lab-item">
+              <div class="lab-icon"><i class="ti ti-heart-rate-monitor" aria-hidden="true"></i></div>
+              <div>
+                <div class="lab-name">ECG Test</div>
+                <div class="lab-patient">Faith Njeri</div>
+              </div>
+              <div class="lab-right">
+                <span class="badge confirmed">Ready</span>
+                <div class="lab-time">Done 10:30 AM</div>
+              </div>
+            </div>
+            <div class="lab-item">
+              <div class="lab-icon"><i class="ti ti-microscope" aria-hidden="true"></i></div>
+              <div>
+                <div class="lab-name">X-Ray Chest</div>
+                <div class="lab-patient">John Doe</div>
+              </div>
+              <div class="lab-right">
+                <span class="badge pending">Pending</span>
+                <div class="lab-time">Ordered 11:00 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pharmacy Stock -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-pill" aria-hidden="true"></i>
+              Pharmacy Stock Alert
+            </div>
+            <span class="card-action" tabindex="0" role="button">Manage stock</span>
+          </div>
+          <div class="card-body">
+            <div class="stock-item">
+              <div class="stock-meta">
+                <span class="stock-name">Amoxicillin 500mg</span>
+                <span class="stock-count critical">12 units</span>
+              </div>
+              <div class="stock-bar-wrap"><div class="stock-bar critical" style="width:6%"></div></div>
+            </div>
+            <div class="stock-item">
+              <div class="stock-meta">
+                <span class="stock-name">Metformin 850mg</span>
+                <span class="stock-count low">45 units</span>
+              </div>
+              <div class="stock-bar-wrap"><div class="stock-bar low" style="width:22%"></div></div>
+            </div>
+            <div class="stock-item">
+              <div class="stock-meta">
+                <span class="stock-name">Paracetamol 500mg</span>
+                <span class="stock-count ok">320 units</span>
+              </div>
+              <div class="stock-bar-wrap"><div class="stock-bar ok" style="width:80%"></div></div>
+            </div>
+            <div class="stock-item">
+              <div class="stock-meta">
+                <span class="stock-name">Ibuprofen 400mg</span>
+                <span class="stock-count low">38 units</span>
+              </div>
+              <div class="stock-bar-wrap"><div class="stock-bar low" style="width:19%"></div></div>
+            </div>
+            <div class="stock-item">
+              <div class="stock-meta">
+                <span class="stock-name">Atorvastatin 20mg</span>
+                <span class="stock-count ok">180 units</span>
+              </div>
+              <div class="stock-bar-wrap"><div class="stock-bar ok" style="width:60%"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /dashboard-grid -->
+
+    </div><!-- /page-view: dashboard -->
+
+    <!-- ================= PATIENTS VIEW ================= -->
+    <div class="page-view" data-page="patients">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="patientSearch" class="sr-only">Search patients</label>
+          <input type="search" id="patientSearch" placeholder="Search by name, phone, or ID...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="patientStatusFilter" class="sr-only">Filter by status</label>
+          <select id="patientStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="New">New</option>
+            <option value="Critical">Critical</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addPatientBtn">
+            <i class="ti ti-user-plus" aria-hidden="true"></i> Add Patient
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Patients">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="name" class="sortable">Name</th>
+                <th data-sort="phone" class="sortable">Phone</th>
+                <th data-sort="age" class="sortable">Age</th>
+                <th data-sort="gender" class="sortable">Gender</th>
+                <th data-sort="lastVisit" class="sortable">Last Visit</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="patientsTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="patientsEmptyState" hidden>No patients found.</p>
+        </div>
+        <div class="pagination" id="patientsPagination" aria-label="Patients pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= DOCTORS VIEW ================= -->
+    <div class="page-view" data-page="doctors">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="doctorSearch" class="sr-only">Search doctors</label>
+          <input type="search" id="doctorSearch" placeholder="Search by name or specialty...">
+        </div>
+        <div class="view-toolbar-filters">
+          <button type="button" class="btn btn-primary" id="addDoctorBtn">
+            <i class="ti ti-stethoscope" aria-hidden="true"></i> Add Doctor
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Doctors">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="name" class="sortable">Name</th>
+                <th data-sort="specialty" class="sortable">Specialty</th>
+                <th data-sort="phone" class="sortable">Phone</th>
+                <th data-sort="email" class="sortable">Email</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="doctorsTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="doctorsEmptyState" hidden>No doctors found.</p>
+        </div>
+        <div class="pagination" id="doctorsPagination" aria-label="Doctors pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= APPOINTMENTS VIEW ================= -->
+    <div class="page-view" data-page="appointments">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="appointmentSearch" class="sr-only">Search appointments</label>
+          <input type="search" id="appointmentSearch" placeholder="Search by patient or doctor...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="appointmentStatusFilter" class="sr-only">Filter by status</label>
+          <select id="appointmentStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addAppointmentBtn">
+            <i class="ti ti-calendar-plus" aria-hidden="true"></i> Book Appointment
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Appointments">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="patientName" class="sortable">Patient</th>
+                <th data-sort="doctor" class="sortable">Doctor</th>
+                <th data-sort="department" class="sortable">Department</th>
+                <th data-sort="date" class="sortable">Date</th>
+                <th data-sort="time" class="sortable">Time</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentsTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="appointmentsEmptyState" hidden>No appointments found.</p>
+        </div>
+        <div class="pagination" id="appointmentsPagination" aria-label="Appointments pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= BILLING VIEW ================= -->
+    <div class="page-view" data-page="billing">
+      <div class="stats-grid billing-stats">
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Total Billed</div>
+            <div class="stat-value" id="billingTotalAmount">KES 0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Paid</div>
+            <div class="stat-value" id="billingPaidAmount">KES 0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Outstanding</div>
+            <div class="stat-value" id="billingOutstandingAmount">KES 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="invoiceSearch" class="sr-only">Search invoices</label>
+          <input type="search" id="invoiceSearch" placeholder="Search by patient or invoice ID...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="invoiceStatusFilter" class="sr-only">Filter by status</label>
+          <select id="invoiceStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+            <option value="Overdue">Overdue</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addInvoiceBtn">
+            <i class="ti ti-file-invoice" aria-hidden="true"></i> New Invoice
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Invoices">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">Invoice #</th>
+                <th data-sort="patientName" class="sortable">Patient</th>
+                <th data-sort="service" class="sortable">Service</th>
+                <th data-sort="amount" class="sortable">Amount</th>
+                <th data-sort="date" class="sortable">Date</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="invoicesTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="invoicesEmptyState" hidden>No invoices found.</p>
+        </div>
+        <div class="pagination" id="invoicesPagination" aria-label="Invoices pagination"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ================= PATIENT MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="patientModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="patientModalTitle">
+    <div class="modal-header">
+      <h3 id="patientModalTitle">Add Patient</h3>
+      <button type="button" class="modal-close" data-close-modal="patientModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="patientForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="patientId" name="id">
+
+        <div class="form-group" data-field="name">
+          <label for="patientName">Full Name</label>
+          <input type="text" id="patientName" name="name" required>
+          <span class="field-error">Please enter the patient's name.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="phone">
+            <label for="patientPhone">Phone</label>
+            <input type="tel" id="patientPhone" name="phone" required>
+            <span class="field-error">Please enter a valid phone number.</span>
+          </div>
+          <div class="form-group" data-field="age">
+            <label for="patientAge">Age</label>
+            <input type="number" id="patientAge" name="age" min="0" max="120" required>
+            <span class="field-error">Please enter a valid age.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="email">
+            <label for="patientEmail">Email</label>
+            <input type="email" id="patientEmail" name="email">
+            <span class="field-error">Please enter a valid email address.</span>
+          </div>
+          <div class="form-group" data-field="gender">
+            <label for="patientGender">Gender</label>
+            <select id="patientGender" name="gender" required>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <span class="field-error">Please select a gender.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="lastVisit">
+            <label for="patientLastVisit">Last Visit</label>
+            <input type="date" id="patientLastVisit" name="lastVisit" required>
+            <span class="field-error">Please select a date.</span>
+          </div>
+          <div class="form-group" data-field="status">
+            <label for="patientStatus">Status</label>
+            <select id="patientStatus" name="status" required>
+              <option>Active</option>
+              <option>New</option>
+              <option>Critical</option>
+            </select>
+            <span class="field-error">Please select a status.</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="patientModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Patient</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= DOCTOR MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="doctorModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="doctorModalTitle">
+    <div class="modal-header">
+      <h3 id="doctorModalTitle">Add Doctor</h3>
+      <button type="button" class="modal-close" data-close-modal="doctorModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="doctorForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="doctorId" name="id">
+
+        <div class="form-group" data-field="name">
+          <label for="doctorName">Full Name</label>
+          <input type="text" id="doctorName" name="name" placeholder="Dr. ..." required>
+          <span class="field-error">Please enter the doctor's name.</span>
+        </div>
+
+        <div class="form-group" data-field="specialty">
+          <label for="doctorSpecialty">Specialty</label>
+          <input type="text" id="doctorSpecialty" name="specialty" required>
+          <span class="field-error">Please enter a specialty.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="phone">
+            <label for="doctorPhone">Phone</label>
+            <input type="tel" id="doctorPhone" name="phone" required>
+            <span class="field-error">Please enter a valid phone number.</span>
+          </div>
+          <div class="form-group" data-field="email">
+            <label for="doctorEmail">Email</label>
+            <input type="email" id="doctorEmail" name="email" required>
+            <span class="field-error">Please enter a valid email address.</span>
+          </div>
+        </div>
+
+        <div class="form-group" data-field="status">
+          <label for="doctorStatus">Status</label>
+          <select id="doctorStatus" name="status" required>
+            <option>On Duty</option>
+            <option>On Call</option>
+            <option>Off Duty</option>
+          </select>
+          <span class="field-error">Please select a status.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="doctorModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Doctor</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= APPOINTMENT MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="appointmentModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appointmentModalTitle">
+    <div class="modal-header">
+      <h3 id="appointmentModalTitle">Book Appointment</h3>
+      <button type="button" class="modal-close" data-close-modal="appointmentModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="appointmentForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="appointmentId" name="id">
+
+        <div class="form-group" data-field="patientName">
+          <label for="apptPatientName">Patient Name</label>
+          <input type="text" id="apptPatientName" name="patientName" required>
+          <span class="field-error">Please enter the patient's name.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="doctor">
+            <label for="apptDoctor">Doctor</label>
+            <select id="apptDoctor" name="doctor" required>
+              <option value="">Select Doctor</option>
+            </select>
+            <span class="field-error">Please select a doctor.</span>
+          </div>
+          <div class="form-group" data-field="department">
+            <label for="apptDepartment">Department</label>
+            <input type="text" id="apptDepartment" name="department" required>
+            <span class="field-error">Please enter a department.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="date">
+            <label for="apptDate">Date</label>
+            <input type="date" id="apptDate" name="date" required>
+            <span class="field-error">Please select a date.</span>
+          </div>
+          <div class="form-group" data-field="time">
+            <label for="apptTime">Time</label>
+            <input type="time" id="apptTime" name="time" required>
+            <span class="field-error">Please select a time.</span>
+          </div>
+        </div>
+
+        <div class="form-group" data-field="status">
+          <label for="apptStatus">Status</label>
+          <select id="apptStatus" name="status" required>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+          </select>
+          <span class="field-error">Please select a status.</span>
+        </div>
+
+        <div class="form-group" data-field="reason">
+          <label for="apptReason">Reason / Notes</label>
+          <textarea id="apptReason" name="reason" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="appointmentModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Appointment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= INVOICE MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="invoiceModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="invoiceModalTitle">
+    <div class="modal-header">
+      <h3 id="invoiceModalTitle">New Invoice</h3>
+      <button type="button" class="modal-close" data-close-modal="invoiceModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="invoiceForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="invoiceId" name="id">
+
+        <div class="form-group" data-field="patientName">
+          <label for="invoicePatientName">Patient Name</label>
+          <input type="text" id="invoicePatientName" name="patientName" required>
+          <span class="field-error">Please enter the patient's name.</span>
+        </div>
+
+        <div class="form-group" data-field="service">
+          <label for="invoiceService">Service / Description</label>
+          <input type="text" id="invoiceService" name="service" required>
+          <span class="field-error">Please describe the service.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="amount">
+            <label for="invoiceAmount">Amount (KES)</label>
+            <input type="number" id="invoiceAmount" name="amount" min="0" step="50" required>
+            <span class="field-error">Please enter a valid amount.</span>
+          </div>
+          <div class="form-group" data-field="date">
+            <label for="invoiceDate">Date</label>
+            <input type="date" id="invoiceDate" name="date" required>
+            <span class="field-error">Please select a date.</span>
+          </div>
+        </div>
+
+        <div class="form-group" data-field="status">
+          <label for="invoiceStatus">Status</label>
+          <select id="invoiceStatus" name="status" required>
+            <option>Pending</option>
+            <option>Paid</option>
+            <option>Overdue</option>
+          </select>
+          <span class="field-error">Please select a status.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="invoiceModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Invoice</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= DELETE CONFIRMATION MODAL ================= -->
+<div class="modal-overlay" id="confirmModalOverlay">
+  <div class="modal modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="modal-header">
+      <h3 id="confirmModalTitle">Confirm Deletion</h3>
+      <button type="button" class="modal-close" data-close-modal="confirmModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmModalMessage">Are you sure you want to delete this record? This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-close-modal="confirmModalOverlay">Cancel</button>
+      <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app-shell -->
+
+<script src="../assets/js/storage.js"></script>
+<script src="../assets/js/toast.js"></script>
+<script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="styles/services-main.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body>
+    <div id="header"></div>
+  <section class="services-section">
+
+<h1>
+        Comprehensive
+        <span>HealthCare Services</span>
+    </h1>
+
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <label for="serviceSearch" class="sr-only">Search services</label>
+        <input type="text"
+               id="serviceSearch"
+               placeholder="Search services (e.g., Pharmacy, Vaccination)...">
+    </div>
+
+    <p id="noServiceResults" class="no-results-message" hidden>
+      No services match your search. Try a different keyword.
+    </p>
+
+  <div class="services-grid" id="servicesGrid">
+
+    <div class="service-card pediatrics" data-keywords="pediatrics specialized healthcare services for infants, children and adolescents.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Pediatrics</h3>
+    <p>Specialized healthcare services for infants, children and adolescents.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card maternity" data-keywords="maternity care prenatal, delivery and postnatal healthcare support for mothers.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Maternity Care</h3>
+    <p>Prenatal, delivery and postnatal healthcare support for mothers.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card radiology" data-keywords="radiology & imaging x-rays, ultrasound scans and advanced diagnostic imaging services.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Radiology & Imaging</h3>
+    <p>X-rays, ultrasound scans and advanced diagnostic imaging services.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card physiotherapy" data-keywords="physiotherapy rehabilitation programs for injury recovery and pain management.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Physiotherapy</h3>
+    <p>Rehabilitation programs for injury recovery and pain management.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card vaccination" data-keywords="vaccination clinic routine immunization services for children and adults.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Vaccination Clinic</h3>
+    <p>Routine immunization services for children and adults.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card nutrition" data-keywords="nutrition & wellness dietary guidance and personalized wellness programs.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Nutrition & Wellness</h3>
+    <p>Dietary guidance and personalized wellness programs.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card ophthalmology" data-keywords="eye care vision testing, eye examinations and treatment of eye conditions.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Eye Care</h3>
+    <p>Vision testing, eye examinations and treatment of eye conditions.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card dermatology" data-keywords="dermatology expert care for skin, hair and nail conditions.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Dermatology</h3>
+    <p>Expert care for skin, hair and nail conditions.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card mental-health" data-keywords="mental health professional counseling, therapy and psychological support.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Mental Health</h3>
+    <p>Professional counseling, therapy and psychological support.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card surgery" data-keywords="minor surgery safe outpatient procedures performed by experienced clinicians.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Minor Surgery</h3>
+    <p>Safe outpatient procedures performed by experienced clinicians.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card dialysis" data-keywords="dialysis services comprehensive kidney care and dialysis treatment programs.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Dialysis Services</h3>
+    <p>Comprehensive kidney care and dialysis treatment programs.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="service-card ambulance" data-keywords="ambulance services 24/7 emergency transportation and medical response services.">
+  <div class="overlay"></div>
+  <div class="card-content">
+    <h3>Ambulance Services</h3>
+    <p>24/7 emergency transportation and medical response services.</p>
+    <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+    <div class="service-card consultation" data-keywords="general consultation professional diagnosis, treatment and preventive care for patients of all ages.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>General Consultation</h3>
+        <p>Professional diagnosis, treatment and preventive care for patients of all ages.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card cardiology" data-keywords="cardiology advanced heart screening, diagnosis and treatment from experienced specialists.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>Cardiology</h3>
+        <p>Advanced heart screening, diagnosis and treatment from experienced specialists.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card laboratory" data-keywords="laboratory services accurate diagnostic testing and medical investigations.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>Laboratory Services</h3>
+        <p>Accurate diagnostic testing and medical investigations.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card emergency" data-keywords="emergency care rapid medical attention for urgent health conditions.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>Emergency Care</h3>
+        <p>Rapid medical attention for urgent health conditions.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card pharmacy" data-keywords="pharmacy services safe medication dispensing and pharmaceutical advice.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>Pharmacy Services</h3>
+        <p>Safe medication dispensing and pharmaceutical advice.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="service-card dental" data-keywords="dental care routine checkups, cleaning and oral health treatments.">
+      <div class="overlay"></div>
+      <div class="card-content">
+        <h3>Dental Care</h3>
+        <p>Routine checkups, cleaning and oral health treatments.</p>
+        <a href="appointment.html">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      
+    </div>
+
+  </div>
+
+  </section>
+
+    <div id="footer"></div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="components/components.js"></script>
+  <script src="scripts/services.js"></script>
+
+</body>
+</html>

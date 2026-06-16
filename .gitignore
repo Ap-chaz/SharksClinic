@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Environment variables (if a backend is added later)
+.env
+.env.local

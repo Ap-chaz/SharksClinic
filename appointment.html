@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Appointment Form</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+
+  <link rel="stylesheet" href="styles/appointment.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="assets/css/shared.css">
+</head>
+
+<body>
+      <div id="header"></div>
+
+ <section class="appointment-section">
+
+  <div class="appointment-card">
+
+    <i class="fa fa-calendar-check appointment-icon"></i>
+
+    <h1>Book an Appointment</h1>
+
+    <p class="subtitle">
+      Schedule a visit with our healthcare professionals.
+      We'll contact you to confirm your appointment.
+    </p>
+
+    <form class="appointment-form" id="appointmentForm" novalidate>
+
+      <div class="form-group" data-field="fullName">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          placeholder="Enter your full name"
+          required>
+        <span class="field-error">Please enter your full name.</span>
+      </div>
+
+      <div class="form-group" data-field="phone">
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="+254..."
+          required>
+        <span class="field-error">Please enter a valid phone number.</span>
+      </div>
+
+      <div class="form-group" data-field="email">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@email.com">
+        <span class="field-error">Please enter a valid email address.</span>
+      </div>
+
+      <div class="form-group" data-field="department">
+        <label for="department">Department</label>
+
+        <select id="department" name="department" required>
+          <option value="">Select Department</option>
+          <option>General Consultation</option>
+          <option>Cardiology</option>
+          <option>Pediatrics</option>
+          <option>Dermatology</option>
+          <option>Dental Care</option>
+          <option>Orthopedics</option>
+          <option>Laboratory</option>
+        </select>
+        <span class="field-error">Please select a department.</span>
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group" data-field="date">
+          <label for="appointmentDate">Preferred Date</label>
+          <input type="date" id="appointmentDate" name="date" required>
+          <span class="field-error">Please choose a valid future date.</span>
+        </div>
+
+        <div class="form-group" data-field="time">
+          <label for="appointmentTime">Preferred Time</label>
+
+          <select id="appointmentTime" name="time" required>
+            <option value="">Select Time</option>
+            <option>08:00 AM</option>
+            <option>09:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>01:00 PM</option>
+            <option>02:00 PM</option>
+            <option>03:00 PM</option>
+            <option>04:00 PM</option>
+            <option>05:00 PM</option>
+          </select>
+          <span class="field-error">Please select a time slot.</span>
+        </div>
+
+      </div>
+
+      <div class="form-group" data-field="reason">
+        <label for="reason">Reason for Visit</label>
+
+        <textarea
+          id="reason"
+          name="reason"
+          rows="5"
+          placeholder="Briefly describe your symptoms or reason for booking..."
+          required></textarea>
+        <span class="field-error">Please briefly describe your reason for visiting.</span>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Book Appointment
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+  
+    <div id="footer"></div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="components/components.js"></script>
+  <script src="scripts/appointment.js"></script>
+
+</body>
+</html>
