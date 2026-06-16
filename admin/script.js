@@ -102,28 +102,18 @@ function closeSidebar() {
   document.getElementById('sidebarOverlay').classList.remove('open');
 }
 
-function toggleNav(el) {
-  const sub = el.nextElementSibling;
-  const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.nav-parent.open').forEach(p => {
-    p.classList.remove('open');
-    p.setAttribute('aria-expanded', 'false');
-    p.nextElementSibling.classList.remove('open');
-  });
-  if (!wasOpen) {
-    el.classList.add('open');
-    el.setAttribute('aria-expanded', 'true');
-    sub.classList.add('open');
-  }
-}
-
 // Page titles/breadcrumbs shown in the topbar for each view
 const PAGE_META = {
   dashboard: { title: "Dashboard", breadcrumb: "Dashboard" },
   patients: { title: "Patients", breadcrumb: "Patients" },
   doctors: { title: "Doctors", breadcrumb: "Doctors" },
   appointments: { title: "Appointments", breadcrumb: "Appointments" },
-  billing: { title: "Billing", breadcrumb: "Billing" }
+  billing: { title: "Billing", breadcrumb: "Billing" },
+  laboratory: { title: "Laboratory", breadcrumb: "Laboratory" },
+  prescriptions: { title: "Prescriptions", breadcrumb: "Prescriptions" },
+  reports: { title: "Reports", breadcrumb: "Reports" },
+  staff: { title: "Staff Management", breadcrumb: "Staff Management" },
+  settings: { title: "Settings", breadcrumb: "Settings" }
 };
 
 /**
@@ -188,6 +178,11 @@ function showView(target) {
   if (target === 'doctors') Doctors.render();
   if (target === 'appointments') Appointments.render();
   if (target === 'billing') Invoices.render();
+  if (target === 'laboratory') LabTests.render();
+  if (target === 'prescriptions') Prescriptions.render();
+  if (target === 'staff') Staff.render();
+  if (target === 'reports') Reports.render();
+  if (target === 'settings') SettingsModule.render();
 }
 
 function closeSidebarOnMobile() {
@@ -1242,7 +1237,690 @@ const Invoices = (() => {
 })();
 
 /* ============================================================
-   11. MODAL HELPERS
+   11. LABORATORY MODULE
+   ============================================================ */
+
+const LabTests = (() => {
+  const controller = createTableController({ pageSize: 5, defaultSort: 'dateOrdered' });
+
+  function getFiltered() {
+    let items = SharksDB.getAll('labTests');
+
+    if (controller.searchTerm) {
+      const term = controller.searchTerm.toLowerCase();
+      items = items.filter(t =>
+        t.patientName.toLowerCase().includes(term) ||
+        t.testType.toLowerCase().includes(term)
+      );
+    }
+
+    if (controller.filterValue) {
+      items = items.filter(t => t.status === controller.filterValue);
+    }
+
+    return sortItems(items, controller);
+  }
+
+  function render() {
+    const tbody = document.getElementById('labTestsTableBody');
+    const emptyState = document.getElementById('labTestsEmptyState');
+    const paginationEl = document.getElementById('labTestsPagination');
+    if (!tbody) return;
+
+    const filtered = getFiltered();
+    const { pageItems, totalPages } = paginate(filtered, controller);
+
+    if (pageItems.length === 0) {
+      tbody.innerHTML = '';
+      if (emptyState) emptyState.hidden = false;
+    } else {
+      if (emptyState) emptyState.hidden = true;
+
+      tbody.innerHTML = pageItems.map(t => `
+        <tr>
+          <td class="text-muted-cell">${t.id}</td>
+          <td>
+            <div class="patient-cell">
+              <span class="patient-avatar ${avatarClass(t.patientName)}">${initials(t.patientName)}</span>
+              ${escapeHtml(t.patientName)}
+            </div>
+          </td>
+          <td>${escapeHtml(t.testType)}</td>
+          <td>${escapeHtml(t.doctor)}</td>
+          <td>${formatDate(t.dateOrdered)}</td>
+          <td><span class="badge ${labStatusBadgeClass(t.status)}">${escapeHtml(t.status)}</span></td>
+          <td>
+            <div class="row-actions">
+              <button type="button" class="btn-icon" data-action="edit" data-id="${t.id}" aria-label="Edit lab test for ${escapeHtml(t.patientName)}">
+                <i class="ti ti-edit" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn-icon danger" data-action="delete" data-id="${t.id}" aria-label="Delete lab test for ${escapeHtml(t.patientName)}">
+                <i class="ti ti-trash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      tbody.querySelectorAll('[data-action="edit"]').forEach(btn => {
+        btn.addEventListener('click', () => openForm(btn.dataset.id));
+      });
+      tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', () => confirmDelete(btn.dataset.id));
+      });
+    }
+
+    renderPagination(paginationEl, controller, totalPages, render);
+
+    const pendingCount = SharksDB.getAll('labTests').filter(t => t.status !== 'Ready').length;
+    const badge = document.getElementById('navBadgeLab');
+    if (badge) badge.textContent = String(pendingCount);
+  }
+
+  function refreshDoctorOptions() {
+    const select = document.getElementById('labDoctor');
+    if (!select) return;
+
+    const doctors = SharksDB.getAll('doctors');
+    const currentValue = select.value;
+
+    select.innerHTML = '<option value="">Select Doctor</option>' +
+      doctors.map(d => `<option value="${escapeHtml(d.name)}">${escapeHtml(d.name)} — ${escapeHtml(d.specialty)}</option>`).join('');
+
+    if (currentValue) select.value = currentValue;
+  }
+
+  function openForm(id) {
+    const form = document.getElementById('labTestForm');
+    const title = document.getElementById('labTestModalTitle');
+    clearFormErrors(form);
+    refreshDoctorOptions();
+
+    if (id) {
+      const test = SharksDB.getById('labTests', id);
+      if (!test) return;
+      title.textContent = 'Edit Lab Test';
+      form.id.value = test.id;
+      form.patientName.value = test.patientName;
+      form.testType.value = test.testType;
+      form.doctor.value = test.doctor;
+      form.dateOrdered.value = test.dateOrdered;
+      form.status.value = test.status;
+      form.result.value = test.result || '';
+    } else {
+      title.textContent = 'Order Lab Test';
+      form.reset();
+      form.id.value = '';
+      form.dateOrdered.value = new Date().toISOString().slice(0, 10);
+    }
+
+    openModal('labTestModalOverlay');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      patientName: form.patientName.value.trim(),
+      testType: form.testType.value.trim(),
+      doctor: form.doctor.value,
+      dateOrdered: form.dateOrdered.value,
+      status: form.status.value,
+      result: form.result.value.trim()
+    };
+
+    const errors = {};
+    if (!data.patientName) errors.patientName = 'Please enter the patient\'s name.';
+    if (!data.testType) errors.testType = 'Please enter the test type.';
+    if (!data.doctor) errors.doctor = 'Please select the ordering doctor.';
+    if (!data.dateOrdered) errors.dateOrdered = 'Please select a date.';
+    if (!data.status) errors.status = 'Please select a status.';
+
+    clearFormErrors(form);
+    if (Object.keys(errors).length > 0) {
+      applyFormErrors(form, errors);
+      return;
+    }
+
+    const id = form.id.value;
+
+    if (id) {
+      SharksDB.update('labTests', id, data);
+      SharksToast.show('Lab test updated successfully.', 'success');
+    } else {
+      const newId = SharksDB.nextId('labTest');
+      SharksDB.add('labTests', { id: newId, ...data });
+      SharksToast.show('Lab test ordered successfully.', 'success');
+    }
+
+    closeModal('labTestModalOverlay');
+    render();
+  }
+
+  function confirmDelete(id) {
+    const test = SharksDB.getById('labTests', id);
+    if (!test) return;
+
+    showConfirmModal(`Delete the "${test.testType}" test for ${test.patientName}? This action cannot be undone.`, () => {
+      SharksDB.remove('labTests', id);
+      SharksToast.show('Lab test deleted.', 'success');
+      render();
+    });
+  }
+
+  function init() {
+    document.getElementById('addLabTestBtn').addEventListener('click', () => openForm(null));
+    document.getElementById('labTestForm').addEventListener('submit', handleSubmit);
+
+    document.getElementById('labSearch').addEventListener('input', (e) => {
+      controller.searchTerm = e.target.value.trim();
+      controller.page = 1;
+      render();
+    });
+
+    document.getElementById('labStatusFilter').addEventListener('change', (e) => {
+      controller.filterValue = e.target.value;
+      controller.page = 1;
+      render();
+    });
+
+    bindSortableHeaders('[aria-label="Laboratory"]', controller, render);
+  }
+
+  return { render, init, openForm };
+})();
+
+/* ============================================================
+   12. PRESCRIPTIONS MODULE
+   ============================================================ */
+
+const Prescriptions = (() => {
+  const controller = createTableController({ pageSize: 5, defaultSort: 'dateIssued' });
+
+  function getFiltered() {
+    let items = SharksDB.getAll('prescriptions');
+
+    if (controller.searchTerm) {
+      const term = controller.searchTerm.toLowerCase();
+      items = items.filter(p =>
+        p.patientName.toLowerCase().includes(term) ||
+        p.medication.toLowerCase().includes(term)
+      );
+    }
+
+    if (controller.filterValue) {
+      items = items.filter(p => p.status === controller.filterValue);
+    }
+
+    return sortItems(items, controller);
+  }
+
+  function render() {
+    const tbody = document.getElementById('prescriptionsTableBody');
+    const emptyState = document.getElementById('prescriptionsEmptyState');
+    const paginationEl = document.getElementById('prescriptionsPagination');
+    if (!tbody) return;
+
+    const filtered = getFiltered();
+    const { pageItems, totalPages } = paginate(filtered, controller);
+
+    if (pageItems.length === 0) {
+      tbody.innerHTML = '';
+      if (emptyState) emptyState.hidden = false;
+    } else {
+      if (emptyState) emptyState.hidden = true;
+
+      tbody.innerHTML = pageItems.map(p => `
+        <tr>
+          <td class="text-muted-cell">${p.id}</td>
+          <td>
+            <div class="patient-cell">
+              <span class="patient-avatar ${avatarClass(p.patientName)}">${initials(p.patientName)}</span>
+              ${escapeHtml(p.patientName)}
+            </div>
+          </td>
+          <td>${escapeHtml(p.doctor)}</td>
+          <td>${escapeHtml(p.medication)}</td>
+          <td>${escapeHtml(p.dosage)}</td>
+          <td>${formatDate(p.dateIssued)}</td>
+          <td><span class="badge ${prescriptionStatusBadgeClass(p.status)}">${escapeHtml(p.status)}</span></td>
+          <td>
+            <div class="row-actions">
+              <button type="button" class="btn-icon" data-action="edit" data-id="${p.id}" aria-label="Edit prescription for ${escapeHtml(p.patientName)}">
+                <i class="ti ti-edit" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn-icon danger" data-action="delete" data-id="${p.id}" aria-label="Delete prescription for ${escapeHtml(p.patientName)}">
+                <i class="ti ti-trash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      tbody.querySelectorAll('[data-action="edit"]').forEach(btn => {
+        btn.addEventListener('click', () => openForm(btn.dataset.id));
+      });
+      tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', () => confirmDelete(btn.dataset.id));
+      });
+    }
+
+    renderPagination(paginationEl, controller, totalPages, render);
+  }
+
+  function refreshDoctorOptions() {
+    const select = document.getElementById('rxDoctor');
+    if (!select) return;
+
+    const doctors = SharksDB.getAll('doctors');
+    const currentValue = select.value;
+
+    select.innerHTML = '<option value="">Select Doctor</option>' +
+      doctors.map(d => `<option value="${escapeHtml(d.name)}">${escapeHtml(d.name)} — ${escapeHtml(d.specialty)}</option>`).join('');
+
+    if (currentValue) select.value = currentValue;
+  }
+
+  function openForm(id) {
+    const form = document.getElementById('prescriptionForm');
+    const title = document.getElementById('prescriptionModalTitle');
+    clearFormErrors(form);
+    refreshDoctorOptions();
+
+    if (id) {
+      const rx = SharksDB.getById('prescriptions', id);
+      if (!rx) return;
+      title.textContent = 'Edit Prescription';
+      form.id.value = rx.id;
+      form.patientName.value = rx.patientName;
+      form.doctor.value = rx.doctor;
+      form.medication.value = rx.medication;
+      form.dosage.value = rx.dosage;
+      form.duration.value = rx.duration;
+      form.dateIssued.value = rx.dateIssued;
+      form.status.value = rx.status;
+    } else {
+      title.textContent = 'New Prescription';
+      form.reset();
+      form.id.value = '';
+      form.dateIssued.value = new Date().toISOString().slice(0, 10);
+    }
+
+    openModal('prescriptionModalOverlay');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      patientName: form.patientName.value.trim(),
+      doctor: form.doctor.value,
+      medication: form.medication.value.trim(),
+      dosage: form.dosage.value.trim(),
+      duration: form.duration.value.trim(),
+      dateIssued: form.dateIssued.value,
+      status: form.status.value
+    };
+
+    const errors = {};
+    if (!data.patientName) errors.patientName = 'Please enter the patient\'s name.';
+    if (!data.doctor) errors.doctor = 'Please select the prescribing doctor.';
+    if (!data.medication) errors.medication = 'Please enter the medication name.';
+    if (!data.dosage) errors.dosage = 'Please enter the dosage.';
+    if (!data.duration) errors.duration = 'Please enter the duration.';
+    if (!data.dateIssued) errors.dateIssued = 'Please select a date.';
+    if (!data.status) errors.status = 'Please select a status.';
+
+    clearFormErrors(form);
+    if (Object.keys(errors).length > 0) {
+      applyFormErrors(form, errors);
+      return;
+    }
+
+    const id = form.id.value;
+
+    if (id) {
+      SharksDB.update('prescriptions', id, data);
+      SharksToast.show('Prescription updated successfully.', 'success');
+    } else {
+      const newId = SharksDB.nextId('prescription');
+      SharksDB.add('prescriptions', { id: newId, ...data });
+      SharksToast.show('Prescription created successfully.', 'success');
+    }
+
+    closeModal('prescriptionModalOverlay');
+    render();
+  }
+
+  function confirmDelete(id) {
+    const rx = SharksDB.getById('prescriptions', id);
+    if (!rx) return;
+
+    showConfirmModal(`Delete the prescription for "${rx.medication}" issued to ${rx.patientName}? This action cannot be undone.`, () => {
+      SharksDB.remove('prescriptions', id);
+      SharksToast.show('Prescription deleted.', 'success');
+      render();
+    });
+  }
+
+  function init() {
+    document.getElementById('addPrescriptionBtn').addEventListener('click', () => openForm(null));
+    document.getElementById('prescriptionForm').addEventListener('submit', handleSubmit);
+
+    document.getElementById('prescriptionSearch').addEventListener('input', (e) => {
+      controller.searchTerm = e.target.value.trim();
+      controller.page = 1;
+      render();
+    });
+
+    document.getElementById('prescriptionStatusFilter').addEventListener('change', (e) => {
+      controller.filterValue = e.target.value;
+      controller.page = 1;
+      render();
+    });
+
+    bindSortableHeaders('[aria-label="Prescriptions"]', controller, render);
+  }
+
+  return { render, init, openForm };
+})();
+
+/* ============================================================
+   13. STAFF MANAGEMENT MODULE
+   ============================================================ */
+
+const Staff = (() => {
+  const controller = createTableController({ pageSize: 5, defaultSort: 'id' });
+
+  function getFiltered() {
+    let items = SharksDB.getAll('staff');
+
+    if (controller.searchTerm) {
+      const term = controller.searchTerm.toLowerCase();
+      items = items.filter(s =>
+        s.name.toLowerCase().includes(term) ||
+        s.role.toLowerCase().includes(term)
+      );
+    }
+
+    if (controller.filterValue) {
+      items = items.filter(s => s.status === controller.filterValue);
+    }
+
+    return sortItems(items, controller);
+  }
+
+  function render() {
+    const tbody = document.getElementById('staffTableBody');
+    const emptyState = document.getElementById('staffEmptyState');
+    const paginationEl = document.getElementById('staffPagination');
+    if (!tbody) return;
+
+    const filtered = getFiltered();
+    const { pageItems, totalPages } = paginate(filtered, controller);
+
+    if (pageItems.length === 0) {
+      tbody.innerHTML = '';
+      if (emptyState) emptyState.hidden = false;
+    } else {
+      if (emptyState) emptyState.hidden = true;
+
+      tbody.innerHTML = pageItems.map(s => `
+        <tr>
+          <td class="text-muted-cell">${s.id}</td>
+          <td>
+            <div class="patient-cell">
+              <span class="patient-avatar ${avatarClass(s.name)}">${initials(s.name)}</span>
+              ${escapeHtml(s.name)}
+            </div>
+          </td>
+          <td>${escapeHtml(s.email)}</td>
+          <td>${escapeHtml(s.role)}</td>
+          <td><span class="badge ${staffStatusBadgeClass(s.status)}">${escapeHtml(s.status)}</span></td>
+          <td>
+            <div class="row-actions">
+              <button type="button" class="btn-icon" data-action="edit" data-id="${s.id}" aria-label="Edit ${escapeHtml(s.name)}">
+                <i class="ti ti-edit" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn-icon danger" data-action="delete" data-id="${s.id}" aria-label="Delete ${escapeHtml(s.name)}">
+                <i class="ti ti-trash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      tbody.querySelectorAll('[data-action="edit"]').forEach(btn => {
+        btn.addEventListener('click', () => openForm(btn.dataset.id));
+      });
+      tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', () => confirmDelete(btn.dataset.id));
+      });
+    }
+
+    renderPagination(paginationEl, controller, totalPages, render);
+  }
+
+  function openForm(id) {
+    const form = document.getElementById('staffForm');
+    const title = document.getElementById('staffModalTitle');
+    clearFormErrors(form);
+
+    if (id) {
+      const member = SharksDB.getById('staff', id);
+      if (!member) return;
+      title.textContent = 'Edit Staff Member';
+      form.id.value = member.id;
+      form.name.value = member.name;
+      form.email.value = member.email;
+      form.role.value = member.role;
+      form.status.value = member.status;
+    } else {
+      title.textContent = 'Add Staff';
+      form.reset();
+      form.id.value = '';
+    }
+
+    openModal('staffModalOverlay');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      role: form.role.value,
+      status: form.status.value
+    };
+
+    const errors = {};
+    if (!data.name) errors.name = 'Please enter the staff member\'s name.';
+    if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'Please enter a valid email address.';
+    if (!data.role) errors.role = 'Please select a role.';
+    if (!data.status) errors.status = 'Please select a status.';
+
+    clearFormErrors(form);
+    if (Object.keys(errors).length > 0) {
+      applyFormErrors(form, errors);
+      return;
+    }
+
+    const id = form.id.value;
+
+    if (id) {
+      SharksDB.update('staff', id, data);
+      SharksToast.show('Staff member updated successfully.', 'success');
+    } else {
+      const newId = SharksDB.nextId('staff');
+      SharksDB.add('staff', { id: newId, ...data });
+      SharksToast.show('Staff member added successfully.', 'success');
+    }
+
+    closeModal('staffModalOverlay');
+    render();
+  }
+
+  function confirmDelete(id) {
+    const member = SharksDB.getById('staff', id);
+    if (!member) return;
+
+    showConfirmModal(`Remove ${member.name} from staff? This action cannot be undone.`, () => {
+      SharksDB.remove('staff', id);
+      SharksToast.show('Staff member removed.', 'success');
+      render();
+    });
+  }
+
+  function init() {
+    document.getElementById('addStaffBtn').addEventListener('click', () => openForm(null));
+    document.getElementById('staffForm').addEventListener('submit', handleSubmit);
+
+    document.getElementById('staffSearch').addEventListener('input', (e) => {
+      controller.searchTerm = e.target.value.trim();
+      controller.page = 1;
+      render();
+    });
+
+    document.getElementById('staffStatusFilter').addEventListener('change', (e) => {
+      controller.filterValue = e.target.value;
+      controller.page = 1;
+      render();
+    });
+
+    bindSortableHeaders('[aria-label="Staff"]', controller, render);
+  }
+
+  return { render, init, openForm };
+})();
+
+/* ============================================================
+   14. REPORTS MODULE
+   ------------------------------------------------------------
+   Read-only aggregated views computed live from existing
+   collections. No new data is created here.
+   ============================================================ */
+
+const Reports = (() => {
+  function render() {
+    const patients = SharksDB.getAll('patients');
+    const appointments = SharksDB.getAll('appointments');
+    const invoices = SharksDB.getAll('invoices');
+
+    setStatValue('reportTotalPatients', patients.length.toLocaleString());
+    setStatValue('reportTotalAppointments', appointments.length.toLocaleString());
+
+    const totalRevenue = invoices.filter(i => i.status === 'Paid').reduce((sum, i) => sum + Number(i.amount || 0), 0);
+    const outstandingRevenue = invoices.filter(i => i.status !== 'Paid').reduce((sum, i) => sum + Number(i.amount || 0), 0);
+    setStatValue('reportTotalRevenue', formatKES(totalRevenue));
+    setStatValue('reportOutstandingRevenue', formatKES(outstandingRevenue));
+
+    renderBarBreakdown('reportAppointmentsByDoctor', countBy(appointments, 'doctor'));
+    renderBarBreakdown('reportAppointmentStatus', countBy(appointments, 'status'));
+    renderBarBreakdown('reportInvoiceStatus', countBy(invoices, 'status'));
+    renderBarBreakdown('reportPatientStatus', countBy(patients, 'status'));
+  }
+
+  function countBy(items, key) {
+    const counts = {};
+    items.forEach(item => {
+      const value = item[key] || 'Unspecified';
+      counts[value] = (counts[value] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function renderBarBreakdown(containerId, counts) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const max = entries.length > 0 ? entries[0][1] : 1;
+
+    if (entries.length === 0) {
+      container.innerHTML = '<p class="empty-state">No data yet.</p>';
+      return;
+    }
+
+    container.innerHTML = entries.map(([label, count]) => {
+      const pct = Math.round((count / max) * 100);
+      return `
+        <div class="report-bar-row">
+          <div class="report-bar-label">${escapeHtml(label)}</div>
+          <div class="report-bar-track">
+            <div class="report-bar-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="report-bar-count">${count}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  return { render };
+})();
+
+/* ============================================================
+   15. SETTINGS MODULE
+   ============================================================ */
+
+const SettingsModule = (() => {
+  function render() {
+    const form = document.getElementById('settingsForm');
+    if (!form) return;
+
+    const settings = SharksDB.getClinicSettings();
+    form.clinicName.value = settings.clinicName;
+    form.address.value = settings.address;
+    form.phone.value = settings.phone;
+    form.email.value = settings.email;
+    form.openingTime.value = settings.openingTime;
+    form.closingTime.value = settings.closingTime;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      clinicName: form.clinicName.value.trim(),
+      address: form.address.value.trim(),
+      phone: form.phone.value.trim(),
+      email: form.email.value.trim(),
+      openingTime: form.openingTime.value,
+      closingTime: form.closingTime.value
+    };
+
+    const errors = {};
+    if (!data.clinicName) errors.clinicName = 'Please enter the clinic name.';
+    if (!data.address) errors.address = 'Please enter an address.';
+    if (!data.phone || !/^[+0-9\s-]{7,15}$/.test(data.phone)) errors.phone = 'Please enter a valid phone number.';
+    if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'Please enter a valid email address.';
+    if (!data.openingTime) errors.openingTime = 'Please select an opening time.';
+    if (!data.closingTime) errors.closingTime = 'Please select a closing time.';
+
+    clearFormErrors(form);
+    if (Object.keys(errors).length > 0) {
+      applyFormErrors(form, errors);
+      return;
+    }
+
+    SharksDB.updateClinicSettings(data);
+    SharksToast.show('Clinic settings saved successfully.', 'success');
+  }
+
+  function init() {
+    const form = document.getElementById('settingsForm');
+    if (form) form.addEventListener('submit', handleSubmit);
+  }
+
+  return { render, init };
+})();
+
+/* ============================================================
+   16. MODAL HELPERS
    ============================================================ */
 
 function openModal(id) {
@@ -1407,36 +2085,36 @@ function invoiceStatusBadgeClass(status) {
   return map[status] || 'pending';
 }
 
+function labStatusBadgeClass(status) {
+  const map = { Pending: 'pending', 'In Progress': 'pending', Ready: 'confirmed' };
+  return map[status] || 'pending';
+}
+
+function prescriptionStatusBadgeClass(status) {
+  const map = { Active: 'confirmed', Completed: 'completed' };
+  return map[status] || 'confirmed';
+}
+
+function staffStatusBadgeClass(status) {
+  const map = { Active: 'active', Inactive: 'cancelled' };
+  return map[status] || 'active';
+}
+
 function updateNavBadge(section, count) {
-  // Patients badge shows live total patient count
   if (section === 'patients' && count !== null) {
-    const badge = document.querySelector('.nav-item.nav-parent .nav-badge.green');
+    const badge = document.getElementById('navBadgePatients');
     if (badge) badge.textContent = count.toLocaleString();
   }
 
-  // Appointments badge shows live total appointment count
   if (section === 'appointments' && count !== null) {
-    const parents = document.querySelectorAll('.nav-item.nav-parent');
-    parents.forEach(p => {
-      const label = p.querySelector('span');
-      if (label && label.textContent.trim() === 'Appointments') {
-        const badge = p.querySelector('.nav-badge');
-        if (badge) badge.textContent = String(count);
-      }
-    });
+    const badge = document.getElementById('navBadgeAppointments');
+    if (badge) badge.textContent = String(count);
   }
 
-  // Billing badge shows count of non-paid invoices
   if (section === 'billing') {
     const pending = SharksDB.getAll('invoices').filter(inv => inv.status !== 'Paid').length;
-    const parents = document.querySelectorAll('.nav-item.nav-parent');
-    parents.forEach(p => {
-      const label = p.querySelector('span');
-      if (label && label.textContent.trim() === 'Billing') {
-        const badge = p.querySelector('.nav-badge');
-        if (badge) badge.textContent = String(pending);
-      }
-    });
+    const badge = document.getElementById('navBadgeBilling');
+    if (badge) badge.textContent = String(pending);
   }
 }
 
@@ -1511,29 +2189,18 @@ function renderRecentPatients() {
    ============================================================ */
 
 function initCardActionsAndQuickActions() {
-  // Card-action links that have no data-target show a "coming soon" toast
-  document.querySelectorAll('.card-action').forEach(el => {
-    if (el.hasAttribute('data-target')) return;
-    el.addEventListener('click', () => {
-      SharksToast.show('This section is part of a future update.', 'info', 2500);
-    });
-  });
-
   // Quick action shortcuts
   const qaMap = {
     'add-patient': () => { showView('patients'); Patients.openForm(null); },
     'book-appointment': () => { showView('appointments'); Appointments.openForm(null); },
-    'new-invoice': () => { showView('billing'); Invoices.openForm(null); }
+    'new-invoice': () => { showView('billing'); Invoices.openForm(null); },
+    'add-doctor': () => { showView('doctors'); Doctors.openForm(null); }
   };
 
   document.querySelectorAll('.qa-btn').forEach(btn => {
     const action = btn.dataset.qa;
     if (action && qaMap[action]) {
       btn.addEventListener('click', qaMap[action]);
-    } else if (!action) {
-      btn.addEventListener('click', () => {
-        SharksToast.show('This action is part of a future update.', 'info', 2500);
-      });
     }
   });
 }
@@ -1546,6 +2213,7 @@ function refreshAll() {
   refreshDashboardStats();
   renderRecentTables();
   Appointments.refreshDoctorOptions();
+  LabTests.render();
   updateNavBadge('patients', SharksDB.getAll('patients').length);
   updateNavBadge('appointments', SharksDB.getAll('appointments').length);
   updateNavBadge('billing', null);
@@ -1563,6 +2231,10 @@ document.addEventListener('DOMContentLoaded', () => {
   Doctors.init();
   Appointments.init();
   Invoices.init();
+  LabTests.init();
+  Prescriptions.init();
+  Staff.init();
+  SettingsModule.init();
 
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', function () {

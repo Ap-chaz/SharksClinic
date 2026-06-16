@@ -147,25 +147,6 @@ body {
 
 .nav-badge.green { background: var(--accent); }
 
-.nav-sub {
-  display: none;
-  background: rgba(0,0,0,0.15);
-}
-
-.nav-sub.open { display: block; }
-
-.nav-sub .nav-item {
-  padding-left: 46px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.5);
-}
-
-.nav-sub .nav-item:hover { color: rgba(255,255,255,0.85); }
-.nav-sub .nav-item.active { color: var(--accent-light); border-left: none; padding-left: 46px; }
-
-.nav-parent .chevron { margin-left: auto; font-size: 14px; transition: transform 0.2s; }
-.nav-parent.open .chevron { transform: rotate(180deg); }
-
 .sidebar-footer {
   margin-top: auto;
   padding: 16px 20px;
@@ -286,15 +267,6 @@ body {
 
 .topbar-btn:hover { background: var(--border); color: var(--text); }
 .topbar-btn i { font-size: 18px; }
-
-.notif-dot {
-  position: absolute;
-  top: 5px; right: 5px;
-  width: 8px; height: 8px;
-  background: var(--danger);
-  border-radius: 50%;
-  border: 2px solid var(--surface);
-}
 
 .topbar-profile {
   display: flex;
@@ -1282,4 +1254,77 @@ body.dark .btn-secondary {
   .row-actions { flex-direction: column; }
 
   .modal-body .form-row { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   REPORTS VIEW
+   ============================================================ */
+.reports-stats { margin-bottom: 18px; }
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  .reports-grid { grid-template-columns: 1fr; }
+}
+
+.report-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report-bar-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-bar-label {
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.report-bar-track {
+  height: 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.report-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.report-bar-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+@media (max-width: 480px) {
+  .report-bar-row { grid-template-columns: 90px 1fr 30px; }
+  .report-bar-label { font-size: 12px; }
+}
+
+/* ============================================================
+   SETTINGS VIEW
+   ============================================================ */
+.settings-card { max-width: 640px; }
+
+.settings-form .modal-body { padding: 22px; }
+
+.settings-footer {
+  justify-content: flex-start;
 }

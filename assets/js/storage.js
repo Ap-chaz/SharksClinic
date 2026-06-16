@@ -47,17 +47,51 @@ const SharksDB = (() => {
       { id: "INV-3005", patientName: "James Ochieng", service: "Surgery Deposit", amount: 9000, status: "Overdue", date: "2026-06-05" }
     ],
 
+    labTests: [
+      { id: "LAB-4001", patientName: "James Ochieng", testType: "Blood Panel", doctor: "Dr. Kimani", dateOrdered: "2026-06-12", status: "Pending", result: "" },
+      { id: "LAB-4002", patientName: "Peter Mwangi", testType: "Urine Analysis", doctor: "Dr. Kimani", dateOrdered: "2026-06-12", status: "Pending", result: "" },
+      { id: "LAB-4003", patientName: "Faith Njeri", testType: "ECG Test", doctor: "Dr. Otieno", dateOrdered: "2026-06-11", status: "Ready", result: "Normal sinus rhythm, no abnormalities detected." },
+      { id: "LAB-4004", patientName: "John Doe", testType: "X-Ray Chest", doctor: "Dr. Kimani", dateOrdered: "2026-06-12", status: "In Progress", result: "" },
+      { id: "LAB-4005", patientName: "Mary Wanjiku", testType: "Full Blood Count", doctor: "Dr. Mercy", dateOrdered: "2026-06-10", status: "Ready", result: "Within normal range." }
+    ],
+
+    prescriptions: [
+      { id: "RX-5001", patientName: "John Doe", doctor: "Dr. Kimani", medication: "Amoxicillin 500mg", dosage: "1 capsule, 3x daily", duration: "7 days", dateIssued: "2026-06-12", status: "Active" },
+      { id: "RX-5002", patientName: "Mary Wanjiku", doctor: "Dr. Mercy", medication: "Paracetamol 500mg", dosage: "2 tablets, every 6 hours", duration: "5 days", dateIssued: "2026-06-11", status: "Active" },
+      { id: "RX-5003", patientName: "Peter Mwangi", doctor: "Dr. Kimani", medication: "Metformin 850mg", dosage: "1 tablet, 2x daily", duration: "30 days", dateIssued: "2026-06-10", status: "Active" },
+      { id: "RX-5004", patientName: "James Ochieng", doctor: "Dr. Kimani", medication: "Ibuprofen 400mg", dosage: "1 tablet, as needed", duration: "10 days", dateIssued: "2026-06-08", status: "Completed" }
+    ],
+
+    staff: [
+      { id: "U-001", name: "Dr. Kimani", email: "kimani@sharksclinic.com", role: "Administrator", status: "Active" },
+      { id: "U-002", name: "Faith Njeri", email: "faith.n@sharksclinic.com", role: "Receptionist", status: "Active" },
+      { id: "U-003", name: "Brian Otieno", email: "brian.o@sharksclinic.com", role: "Billing Clerk", status: "Active" },
+      { id: "U-004", name: "Mercy Wairimu", email: "mercy.w@sharksclinic.com", role: "Nurse", status: "Inactive" }
+    ],
+
     feedback: [],
 
     meta: {
       nextPatientId: 1006,
       nextDoctorId: 5,
       nextAppointmentId: 2007,
-      nextInvoiceId: 3006
+      nextInvoiceId: 3006,
+      nextLabTestId: 4006,
+      nextPrescriptionId: 5005,
+      nextStaffId: 5
     },
 
     settings: {
       darkMode: false
+    },
+
+    clinicSettings: {
+      clinicName: "SHARKS Clinic",
+      address: "Mombasa Road, Nairobi, Kenya",
+      phone: "0700 000 111",
+      email: "info@sharksclinic.com",
+      openingTime: "08:00",
+      closingTime: "18:00"
     },
 
     auth: {
@@ -162,6 +196,18 @@ const SharksDB = (() => {
         id = `INV-${meta.nextInvoiceId}`;
         meta.nextInvoiceId += 1;
         break;
+      case "labTest":
+        id = `LAB-${meta.nextLabTestId}`;
+        meta.nextLabTestId += 1;
+        break;
+      case "prescription":
+        id = `RX-${meta.nextPrescriptionId}`;
+        meta.nextPrescriptionId += 1;
+        break;
+      case "staff":
+        id = `U-${String(meta.nextStaffId).padStart(3, "0")}`;
+        meta.nextStaffId += 1;
+        break;
       default:
         id = `ID-${Date.now()}`;
     }
@@ -192,6 +238,17 @@ const SharksDB = (() => {
     return db.auth;
   }
 
+  function getClinicSettings() {
+    return load().clinicSettings;
+  }
+
+  function updateClinicSettings(changes) {
+    const db = load();
+    db.clinicSettings = { ...db.clinicSettings, ...changes };
+    save(db);
+    return db.clinicSettings;
+  }
+
   /* ---------- Public API ---------------------------------------------- */
   return {
     load,
@@ -206,6 +263,8 @@ const SharksDB = (() => {
     getSettings,
     updateSettings,
     getAuth,
-    setAuth
+    setAuth,
+    getClinicSettings,
+    updateClinicSettings
   };
 })();

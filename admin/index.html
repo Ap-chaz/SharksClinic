@@ -72,124 +72,57 @@
 
   <div class="sidebar-section-label">Clinical</div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">
     <i class="ti ti-users" aria-hidden="true"></i>
     <span>Patients</span>
-    <span class="nav-badge green">1,250</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Register Patient</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient List</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient Search</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="patients">Patient Profiles</div>
+    <span class="nav-badge green" id="navBadgePatients">1,250</span>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">
     <i class="ti ti-calendar-event" aria-hidden="true"></i>
     <span>Appointments</span>
-    <span class="nav-badge">8</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Book Appointment</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Upcoming</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="appointments">Appointment Status</div>
+    <span class="nav-badge" id="navBadgeAppointments">8</span>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="doctors">
     <i class="ti ti-stethoscope" aria-hidden="true"></i>
     <span>Doctors</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="doctors">Doctor Directory</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="doctors">Doctor Schedules</div>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
-    <i class="ti ti-notes-medical" aria-hidden="true"></i>
-    <span>Medical Records</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Patient History</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Diagnoses</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Prescriptions</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Doctor Notes</div>
-  </div>
-
-  <div class="sidebar-section-label">Services</div>
-
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="laboratory">
     <i class="ti ti-microscope" aria-hidden="true"></i>
     <span>Laboratory</span>
-    <span class="nav-badge">5</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Lab Requests</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Lab Results</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Pending Tests</div>
+    <span class="nav-badge" id="navBadgeLab">5</span>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="prescriptions">
     <i class="ti ti-pill" aria-hidden="true"></i>
-    <span>Pharmacy</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Medicines</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Stock Levels</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Dispensing Records</div>
+    <span>Prescriptions</span>
   </div>
 
   <div class="sidebar-section-label">Finance</div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">
     <i class="ti ti-receipt" aria-hidden="true"></i>
     <span>Billing</span>
-    <span class="nav-badge">3</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Invoices</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Payments</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="billing">Outstanding Balances</div>
+    <span class="nav-badge" id="navBadgeBilling">3</span>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="reports">
     <i class="ti ti-chart-pie" aria-hidden="true"></i>
     <span>Reports</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Daily Reports</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Monthly Reports</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Revenue Reports</div>
   </div>
 
   <div class="sidebar-section-label">Admin</div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="staff">
     <i class="ti ti-users-group" aria-hidden="true"></i>
     <span>Staff Management</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Users</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Roles</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Permissions</div>
   </div>
 
-  <div class="nav-item nav-parent" onclick="toggleNav(this)" role="button" tabindex="0" aria-expanded="false">
+  <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0" data-target="settings">
     <i class="ti ti-settings" aria-hidden="true"></i>
     <span>Settings</span>
-    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
-  </div>
-  <div class="nav-sub">
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">Clinic Information</div>
-    <div class="nav-item" onclick="setPage(this)" role="button" tabindex="0">System Settings</div>
   </div>
 
   <div class="sidebar-footer">
@@ -228,16 +161,6 @@
     <div class="topbar-actions">
       <button class="topbar-btn" type="button" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode" aria-pressed="false">
         <i class="ti ti-moon" aria-hidden="true"></i>
-      </button>
-      <button class="topbar-btn" type="button" title="Notifications" aria-label="Notifications">
-        <i class="ti ti-bell" aria-hidden="true"></i>
-        <span class="notif-dot"></span>
-      </button>
-      <button class="topbar-btn" type="button" title="Messages" aria-label="Messages">
-        <i class="ti ti-message" aria-hidden="true"></i>
-      </button>
-      <button class="topbar-btn" type="button" title="Help" aria-label="Help">
-        <i class="ti ti-help-circle" aria-hidden="true"></i>
       </button>
       <button class="topbar-profile" type="button" aria-label="Account menu for Dr. Kimani, Administrator">
         <div class="topbar-avatar">DK</div>
@@ -554,7 +477,6 @@
               <i class="ti ti-chart-bar" aria-hidden="true"></i>
               Revenue Summary
             </div>
-            <span class="card-action" tabindex="0" role="button">Full report</span>
           </div>
           <div class="revenue-grid">
             <div class="rev-item">
@@ -587,7 +509,6 @@
               <i class="ti ti-activity" aria-hidden="true"></i>
               Activity Feed
             </div>
-            <span class="card-action" tabindex="0" role="button">See all</span>
           </div>
           <div class="card-body">
             <div class="activity-feed">
@@ -663,17 +584,9 @@
               <i class="ti ti-file-invoice" aria-hidden="true"></i>
               <span>New Invoice</span>
             </div>
-            <div class="qa-btn" tabindex="0" role="button" aria-label="Order lab test">
-              <i class="ti ti-flask" aria-hidden="true"></i>
-              <span>Order Lab</span>
-            </div>
-            <div class="qa-btn" tabindex="0" role="button" aria-label="Add prescription">
-              <i class="ti ti-pill" aria-hidden="true"></i>
-              <span>Prescription</span>
-            </div>
-            <div class="qa-btn" tabindex="0" role="button" aria-label="Generate report">
-              <i class="ti ti-chart-pie" aria-hidden="true"></i>
-              <span>Report</span>
+            <div class="qa-btn" tabindex="0" role="button" aria-label="Add doctor" data-qa="add-doctor">
+              <i class="ti ti-stethoscope" aria-hidden="true"></i>
+              <span>Add Doctor</span>
             </div>
           </div>
         </div>
@@ -685,7 +598,7 @@
               <i class="ti ti-clock" aria-hidden="true"></i>
               Today's Schedule
             </div>
-            <span class="card-action" tabindex="0" role="button">Full schedule</span>
+            <span class="card-action" tabindex="0" role="button" data-target="appointments" onclick="setPage(this)">Full schedule</span>
           </div>
           <div class="schedule-list">
             <div class="schedule-item">
@@ -804,111 +717,6 @@
                 <div class="doc-spec">Obstetrics</div>
               </div>
               <div class="doc-status"><span class="badge active">On Duty</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pending Lab Tests -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="ti ti-microscope" aria-hidden="true"></i>
-              Pending Lab Tests
-            </div>
-            <span class="card-action" tabindex="0" role="button">All tests</span>
-          </div>
-          <div class="card-body">
-            <div class="lab-item">
-              <div class="lab-icon"><i class="ti ti-droplet" aria-hidden="true"></i></div>
-              <div>
-                <div class="lab-name">Blood Panel</div>
-                <div class="lab-patient">James Ochieng</div>
-              </div>
-              <div class="lab-right">
-                <span class="badge pending">Pending</span>
-                <div class="lab-time">Ordered 8:00 AM</div>
-              </div>
-            </div>
-            <div class="lab-item">
-              <div class="lab-icon"><i class="ti ti-flask" aria-hidden="true"></i></div>
-              <div>
-                <div class="lab-name">Urine Analysis</div>
-                <div class="lab-patient">Peter Mwangi</div>
-              </div>
-              <div class="lab-right">
-                <span class="badge pending">Pending</span>
-                <div class="lab-time">Ordered 9:15 AM</div>
-              </div>
-            </div>
-            <div class="lab-item">
-              <div class="lab-icon"><i class="ti ti-heart-rate-monitor" aria-hidden="true"></i></div>
-              <div>
-                <div class="lab-name">ECG Test</div>
-                <div class="lab-patient">Faith Njeri</div>
-              </div>
-              <div class="lab-right">
-                <span class="badge confirmed">Ready</span>
-                <div class="lab-time">Done 10:30 AM</div>
-              </div>
-            </div>
-            <div class="lab-item">
-              <div class="lab-icon"><i class="ti ti-microscope" aria-hidden="true"></i></div>
-              <div>
-                <div class="lab-name">X-Ray Chest</div>
-                <div class="lab-patient">John Doe</div>
-              </div>
-              <div class="lab-right">
-                <span class="badge pending">Pending</span>
-                <div class="lab-time">Ordered 11:00 AM</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pharmacy Stock -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <i class="ti ti-pill" aria-hidden="true"></i>
-              Pharmacy Stock Alert
-            </div>
-            <span class="card-action" tabindex="0" role="button">Manage stock</span>
-          </div>
-          <div class="card-body">
-            <div class="stock-item">
-              <div class="stock-meta">
-                <span class="stock-name">Amoxicillin 500mg</span>
-                <span class="stock-count critical">12 units</span>
-              </div>
-              <div class="stock-bar-wrap"><div class="stock-bar critical" style="width:6%"></div></div>
-            </div>
-            <div class="stock-item">
-              <div class="stock-meta">
-                <span class="stock-name">Metformin 850mg</span>
-                <span class="stock-count low">45 units</span>
-              </div>
-              <div class="stock-bar-wrap"><div class="stock-bar low" style="width:22%"></div></div>
-            </div>
-            <div class="stock-item">
-              <div class="stock-meta">
-                <span class="stock-name">Paracetamol 500mg</span>
-                <span class="stock-count ok">320 units</span>
-              </div>
-              <div class="stock-bar-wrap"><div class="stock-bar ok" style="width:80%"></div></div>
-            </div>
-            <div class="stock-item">
-              <div class="stock-meta">
-                <span class="stock-name">Ibuprofen 400mg</span>
-                <span class="stock-count low">38 units</span>
-              </div>
-              <div class="stock-bar-wrap"><div class="stock-bar low" style="width:19%"></div></div>
-            </div>
-            <div class="stock-item">
-              <div class="stock-meta">
-                <span class="stock-name">Atorvastatin 20mg</span>
-                <span class="stock-count ok">180 units</span>
-              </div>
-              <div class="stock-bar-wrap"><div class="stock-bar ok" style="width:60%"></div></div>
             </div>
           </div>
         </div>
@@ -1111,6 +919,276 @@
           <p class="empty-state" id="invoicesEmptyState" hidden>No invoices found.</p>
         </div>
         <div class="pagination" id="invoicesPagination" aria-label="Invoices pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= LABORATORY VIEW ================= -->
+    <div class="page-view" data-page="laboratory">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="labSearch" class="sr-only">Search lab tests</label>
+          <input type="search" id="labSearch" placeholder="Search by patient or test type...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="labStatusFilter" class="sr-only">Filter by status</label>
+          <select id="labStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Ready">Ready</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addLabTestBtn">
+            <i class="ti ti-flask" aria-hidden="true"></i> Order Test
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Laboratory">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="patientName" class="sortable">Patient</th>
+                <th data-sort="testType" class="sortable">Test Type</th>
+                <th data-sort="doctor" class="sortable">Ordering Doctor</th>
+                <th data-sort="dateOrdered" class="sortable">Date Ordered</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="labTestsTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="labTestsEmptyState" hidden>No lab tests found.</p>
+        </div>
+        <div class="pagination" id="labTestsPagination" aria-label="Laboratory pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= PRESCRIPTIONS VIEW ================= -->
+    <div class="page-view" data-page="prescriptions">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="prescriptionSearch" class="sr-only">Search prescriptions</label>
+          <input type="search" id="prescriptionSearch" placeholder="Search by patient or medication...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="prescriptionStatusFilter" class="sr-only">Filter by status</label>
+          <select id="prescriptionStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addPrescriptionBtn">
+            <i class="ti ti-pill" aria-hidden="true"></i> New Prescription
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Prescriptions">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="patientName" class="sortable">Patient</th>
+                <th data-sort="doctor" class="sortable">Doctor</th>
+                <th data-sort="medication" class="sortable">Medication</th>
+                <th data-sort="dosage" class="sortable">Dosage</th>
+                <th data-sort="dateIssued" class="sortable">Date Issued</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="prescriptionsTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="prescriptionsEmptyState" hidden>No prescriptions found.</p>
+        </div>
+        <div class="pagination" id="prescriptionsPagination" aria-label="Prescriptions pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= REPORTS VIEW ================= -->
+    <div class="page-view" data-page="reports">
+      <div class="stats-grid reports-stats">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="ti ti-users" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Total Patients</div>
+            <div class="stat-value" id="reportTotalPatients">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="ti ti-calendar-check" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Total Appointments</div>
+            <div class="stat-value" id="reportTotalAppointments">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Total Revenue Collected</div>
+            <div class="stat-value" id="reportTotalRevenue">KES 0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+          <div class="stat-info">
+            <div class="stat-label">Outstanding Revenue</div>
+            <div class="stat-value" id="reportOutstandingRevenue">KES 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reports-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-chart-bar" aria-hidden="true"></i>
+              Appointments by Doctor
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="reportAppointmentsByDoctor" class="report-bars"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-chart-pie" aria-hidden="true"></i>
+              Appointment Status Breakdown
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="reportAppointmentStatus" class="report-bars"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-receipt" aria-hidden="true"></i>
+              Invoice Status Breakdown
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="reportInvoiceStatus" class="report-bars"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-users" aria-hidden="true"></i>
+              Patients by Status
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="reportPatientStatus" class="report-bars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STAFF MANAGEMENT VIEW ================= -->
+    <div class="page-view" data-page="staff">
+      <div class="view-toolbar">
+        <div class="view-toolbar-search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <label for="staffSearch" class="sr-only">Search staff</label>
+          <input type="search" id="staffSearch" placeholder="Search by name or role...">
+        </div>
+        <div class="view-toolbar-filters">
+          <label for="staffStatusFilter" class="sr-only">Filter by status</label>
+          <select id="staffStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="addStaffBtn">
+            <i class="ti ti-user-plus" aria-hidden="true"></i> Add Staff
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <table class="data-table" aria-label="Staff">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable">ID</th>
+                <th data-sort="name" class="sortable">Name</th>
+                <th data-sort="email" class="sortable">Email</th>
+                <th data-sort="role" class="sortable">Role</th>
+                <th data-sort="status" class="sortable">Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="staffTableBody"></tbody>
+          </table>
+          <p class="empty-state" id="staffEmptyState" hidden>No staff members found.</p>
+        </div>
+        <div class="pagination" id="staffPagination" aria-label="Staff pagination"></div>
+      </div>
+    </div>
+
+    <!-- ================= SETTINGS VIEW ================= -->
+    <div class="page-view" data-page="settings">
+      <div class="card settings-card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="ti ti-settings" aria-hidden="true"></i>
+            Clinic Information
+          </div>
+        </div>
+        <form id="settingsForm" class="settings-form" novalidate>
+          <div class="modal-body">
+            <div class="form-group" data-field="clinicName">
+              <label for="settingsClinicName">Clinic Name</label>
+              <input type="text" id="settingsClinicName" name="clinicName" required>
+              <span class="field-error">Please enter the clinic name.</span>
+            </div>
+
+            <div class="form-group" data-field="address">
+              <label for="settingsAddress">Address</label>
+              <input type="text" id="settingsAddress" name="address" required>
+              <span class="field-error">Please enter an address.</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" data-field="phone">
+                <label for="settingsPhone">Phone</label>
+                <input type="tel" id="settingsPhone" name="phone" required>
+                <span class="field-error">Please enter a valid phone number.</span>
+              </div>
+              <div class="form-group" data-field="email">
+                <label for="settingsEmail">Email</label>
+                <input type="email" id="settingsEmail" name="email" required>
+                <span class="field-error">Please enter a valid email address.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" data-field="openingTime">
+                <label for="settingsOpeningTime">Opening Time</label>
+                <input type="time" id="settingsOpeningTime" name="openingTime" required>
+                <span class="field-error">Please select an opening time.</span>
+              </div>
+              <div class="form-group" data-field="closingTime">
+                <label for="settingsClosingTime">Closing Time</label>
+                <input type="time" id="settingsClosingTime" name="closingTime" required>
+                <span class="field-error">Please select a closing time.</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer settings-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -1370,6 +1448,195 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-close-modal="invoiceModalOverlay">Cancel</button>
         <button type="submit" class="btn btn-primary">Save Invoice</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= LAB TEST MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="labTestModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="labTestModalTitle">
+    <div class="modal-header">
+      <h3 id="labTestModalTitle">Order Lab Test</h3>
+      <button type="button" class="modal-close" data-close-modal="labTestModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="labTestForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="labTestId" name="id">
+
+        <div class="form-group" data-field="patientName">
+          <label for="labPatientName">Patient Name</label>
+          <input type="text" id="labPatientName" name="patientName" required>
+          <span class="field-error">Please enter the patient's name.</span>
+        </div>
+
+        <div class="form-group" data-field="testType">
+          <label for="labTestType">Test Type</label>
+          <input type="text" id="labTestType" name="testType" placeholder="e.g. Blood Panel, X-Ray Chest" required>
+          <span class="field-error">Please enter the test type.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="doctor">
+            <label for="labDoctor">Ordering Doctor</label>
+            <select id="labDoctor" name="doctor" required>
+              <option value="">Select Doctor</option>
+            </select>
+            <span class="field-error">Please select the ordering doctor.</span>
+          </div>
+          <div class="form-group" data-field="dateOrdered">
+            <label for="labDateOrdered">Date Ordered</label>
+            <input type="date" id="labDateOrdered" name="dateOrdered" required>
+            <span class="field-error">Please select a date.</span>
+          </div>
+        </div>
+
+        <div class="form-group" data-field="status">
+          <label for="labStatus">Status</label>
+          <select id="labStatus" name="status" required>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Ready</option>
+          </select>
+          <span class="field-error">Please select a status.</span>
+        </div>
+
+        <div class="form-group" data-field="result">
+          <label for="labResult">Result (if ready)</label>
+          <textarea id="labResult" name="result" rows="3" placeholder="Enter result notes once the test is complete..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="labTestModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Test</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= PRESCRIPTION MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="prescriptionModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="prescriptionModalTitle">
+    <div class="modal-header">
+      <h3 id="prescriptionModalTitle">New Prescription</h3>
+      <button type="button" class="modal-close" data-close-modal="prescriptionModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="prescriptionForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="prescriptionId" name="id">
+
+        <div class="form-group" data-field="patientName">
+          <label for="rxPatientName">Patient Name</label>
+          <input type="text" id="rxPatientName" name="patientName" required>
+          <span class="field-error">Please enter the patient's name.</span>
+        </div>
+
+        <div class="form-group" data-field="doctor">
+          <label for="rxDoctor">Prescribing Doctor</label>
+          <select id="rxDoctor" name="doctor" required>
+            <option value="">Select Doctor</option>
+          </select>
+          <span class="field-error">Please select the prescribing doctor.</span>
+        </div>
+
+        <div class="form-group" data-field="medication">
+          <label for="rxMedication">Medication</label>
+          <input type="text" id="rxMedication" name="medication" placeholder="e.g. Amoxicillin 500mg" required>
+          <span class="field-error">Please enter the medication name.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="dosage">
+            <label for="rxDosage">Dosage</label>
+            <input type="text" id="rxDosage" name="dosage" placeholder="e.g. 1 tablet, 2x daily" required>
+            <span class="field-error">Please enter the dosage.</span>
+          </div>
+          <div class="form-group" data-field="duration">
+            <label for="rxDuration">Duration</label>
+            <input type="text" id="rxDuration" name="duration" placeholder="e.g. 7 days" required>
+            <span class="field-error">Please enter the duration.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="dateIssued">
+            <label for="rxDateIssued">Date Issued</label>
+            <input type="date" id="rxDateIssued" name="dateIssued" required>
+            <span class="field-error">Please select a date.</span>
+          </div>
+          <div class="form-group" data-field="status">
+            <label for="rxStatus">Status</label>
+            <select id="rxStatus" name="status" required>
+              <option>Active</option>
+              <option>Completed</option>
+            </select>
+            <span class="field-error">Please select a status.</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="prescriptionModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Prescription</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= STAFF MODAL (Add/Edit) ================= -->
+<div class="modal-overlay" id="staffModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="staffModalTitle">
+    <div class="modal-header">
+      <h3 id="staffModalTitle">Add Staff</h3>
+      <button type="button" class="modal-close" data-close-modal="staffModalOverlay" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form id="staffForm" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="staffId" name="id">
+
+        <div class="form-group" data-field="name">
+          <label for="staffName">Full Name</label>
+          <input type="text" id="staffName" name="name" required>
+          <span class="field-error">Please enter the staff member's name.</span>
+        </div>
+
+        <div class="form-group" data-field="email">
+          <label for="staffEmail">Email</label>
+          <input type="email" id="staffEmail" name="email" required>
+          <span class="field-error">Please enter a valid email address.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" data-field="role">
+            <label for="staffRole">Role</label>
+            <select id="staffRole" name="role" required>
+              <option value="">Select Role</option>
+              <option>Administrator</option>
+              <option>Receptionist</option>
+              <option>Billing Clerk</option>
+              <option>Nurse</option>
+              <option>Doctor</option>
+            </select>
+            <span class="field-error">Please select a role.</span>
+          </div>
+          <div class="form-group" data-field="status">
+            <label for="staffStatus">Status</label>
+            <select id="staffStatus" name="status" required>
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+            <span class="field-error">Please select a status.</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="staffModalOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Staff Member</button>
       </div>
     </form>
   </div>
